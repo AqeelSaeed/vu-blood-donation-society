@@ -146,7 +146,7 @@ class _ConnectivityStatusState extends State<ConnectivityStatus> {
   @override
   void initState() {
     super.initState();
-    _connectivityStream = Connectivity().onConnectivityChanged as Stream<ConnectivityResult>;
+    _connectivityStream = Connectivity().onConnectivityChanged.expand((list) => list);
   }
 
   @override

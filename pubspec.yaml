@@ -1,0 +1,50 @@
+name: plasma_donor
+description: Plasma Donor Application
+
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+
+version: 1.0.0+1
+
+environment:
+    sdk: '>=3.4.3 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons:
+  flutter_svg:
+  carousel_slider:
+  image_picker:
+  firebase_core:
+  firebase_auth:
+  email_validator:
+  google_sign_in:
+  cloud_firestore:
+  kf_drawer:
+  fluttertoast:
+  connectivity:
+  flutter_offline:
+  flutter_progress_hud:
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/images/
+    - assets/icons/
+  fonts:
+    - family: Assistant
+      fonts:
+          - asset: fonts/Assistant-VariableFont_wght.ttf
+
+    - family: Libre_Baskerville
+      fonts:
+          - asset: fonts/LibreBaskerville-Bold.ttf
+
+
+

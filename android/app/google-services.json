@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "957391867143",
+    "project_id": "vu-blood-donation",
+    "storage_bucket": "vu-blood-donation.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:957391867143:android:d1ad946e502ff64035c9a2",
+        "android_client_info": {
+          "package_name": "com.blood.donation_society.vu_blood_donation"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAkVW1tAS_CYq5cs5apo2G_bttDgo6axg0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

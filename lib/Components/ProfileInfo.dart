@@ -73,8 +73,8 @@ class ProfileReview extends StatelessWidget {
                     fontWeight: FontWeight.w900,
                   ),
                 ),
-                BorderView(mobile, Icons.phone),
-                BorderView(location, Icons.location_on),
+                BorderView(mobile, Icons.phone,),
+                BorderView(location, Icons.location_on,),
                 Align(
                   alignment: Alignment.bottomRight,
                   child: TextButton(

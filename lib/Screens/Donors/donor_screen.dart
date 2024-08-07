@@ -18,12 +18,12 @@ class _DonorsScreenState extends State<DonorsScreen> {
     return WillPopScope(
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Donors'),
+          title: Text('Donors', style: TextStyle(color: kWhiteColor),),
           centerTitle: true,
           backgroundColor: kPrimaryColor,
           leading: Builder(
             builder: (context) => IconButton(
-              icon: Icon(Icons.arrow_back_rounded),
+              icon: Icon(Icons.arrow_back_rounded, color: kWhiteColor,),
               onPressed: onBackPressed,
             ),
           ),
@@ -71,15 +71,15 @@ class _DonorsScreenState extends State<DonorsScreen> {
                                               Navigator.pop(context);
                                             },
                                             "${doc['location']}",
-                                            "${doc['About']}",
-                                            "${doc['Name']}",
-                                            "${doc['Phone Number']}",
-                                            "${doc['Blood Group']}",
+                                            "${doc['about']}",
+                                            "${doc['name']}",
+                                            "${doc['phoneNumber']}",
+                                            "${doc['bloodGroup']}",
                                             'Close',
                                           );
                                         });
                                   },
-                                  '${doc['Name']}',
+                                  '${doc['name']}',
                                   () {},
                                 ),
                               )

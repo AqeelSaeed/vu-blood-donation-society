@@ -109,7 +109,7 @@ class _BodyState extends State<Body> {
                         ElevatedButton(
                           style:
                               ElevatedButton.styleFrom(backgroundColor: kPrimaryColor),
-                          child: Text('Send'),
+                          child: Text('Send', style: TextStyle(color: kWhiteColor),),
                           onPressed: _forgotPassword,
                         ),
                       ],

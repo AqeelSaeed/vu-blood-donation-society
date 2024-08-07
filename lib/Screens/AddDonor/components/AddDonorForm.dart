@@ -241,11 +241,11 @@ class _AddDonorFormState extends State<AddDonorForm> {
       formState.save();
       try {
         _addData.doc().set({
-          'Name': _name,
-          'Phone Number': _mobileNo,
-          'About': _about,
-          'Blood Group': _bloodGroup,
-          'Gender': _gender,
+          'name': _name,
+          'phoneNumber': _mobileNo,
+          'about': _about,
+          'bloodGroup': _bloodGroup,
+          'gender': _gender,
           'location': _address,
         });
         Fluttertoast.showToast(

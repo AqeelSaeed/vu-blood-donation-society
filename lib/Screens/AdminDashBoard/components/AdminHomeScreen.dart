@@ -8,7 +8,6 @@ import 'package:plasma_donor/Screens/AddDonor/adddonor_screen.dart';
 import 'package:plasma_donor/Screens/Raise%20Request/raiserequest_screen.dart';
 import 'package:plasma_donor/Screens/SearchScreen/search_screen.dart';
 
-// ignore: must_be_immutable
 class AdminHomeScreen extends KFDrawerContent {
   @override
   _AdminHomeScreenState createState() => _AdminHomeScreenState();
@@ -37,10 +36,11 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
         body: ConnectivityStatus(
           child: Column(
             children: <Widget>[
-              Image.asset(
-                "assets/images/new4.png",
-                height: _height.height * 0.3,
-              ),
+              // Image.asset(
+              //   "assets/images/new4.png",
+              //   height: _height.height * 0.3,
+              // ),
+              SizedBox(height: _height.height * 0.05),
               Text(
                 "MAKE SOMEONE HAPPY TODAY",
                 style: TextStyle(
@@ -51,73 +51,87 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                 textAlign: TextAlign.center,
               ),
               SizedBox(height: _height.height * 0.03),
-              Expanded(
+              Padding(
+                padding: const EdgeInsets.all(18.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     Expanded(
-                      child: VerticalCard(
-                        Icons.person,
-                        () {
-                          Navigator.pushAndRemoveUntil(context,
-                              MaterialPageRoute(
-                            builder: (context) {
-                              return ActiveUsers();
-                            },
-                          ), (route) => false);
-                        },
-                        'Active Users',
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 8.0),
+                        child: VerticalCard(
+                          Icons.person,
+                          () {
+                            Navigator.pushAndRemoveUntil(context,
+                                MaterialPageRoute(
+                              builder: (context) {
+                                return ActiveUsers();
+                              },
+                            ), (route) => false);
+                          },
+                          'Active Users',
+                        ),
                       ),
                     ),
                     Expanded(
-                      child: VerticalCard(
-                        Icons.local_hospital_outlined,
-                        () {
-                          Navigator.pushAndRemoveUntil(context,
-                              MaterialPageRoute(
-                            builder: (context) {
-                              return RaiseRequestScreen();
-                            },
-                          ), (route) => false);
-                        },
-                        'Raise Request',
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 8.0),
+                        child: VerticalCard(
+                          Icons.local_hospital_outlined,
+                          () {
+                            Navigator.pushAndRemoveUntil(context,
+                                MaterialPageRoute(
+                              builder: (context) {
+                                return RaiseRequestScreen();
+                              },
+                            ), (route) => false);
+                          },
+                          'Raise Request',
+                        ),
                       ),
                     ),
                   ],
                 ),
               ),
-              Expanded(
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 18.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     Expanded(
-                      child: VerticalCard(
-                        Icons.add,
-                        () {
-                          Navigator.pushAndRemoveUntil(context,
-                              MaterialPageRoute(
-                            builder: (context) {
-                              return AddDonorScreen();
-                            },
-                          ), (route) => false);
-                        },
-                        'Add Donor',
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 8.0),
+                        child: VerticalCard(
+                          Icons.add,
+                          () {
+                            Navigator.pushAndRemoveUntil(context,
+                                MaterialPageRoute(
+                              builder: (context) {
+                                return AddDonorScreen();
+                              },
+                            ), (route) => false);
+                          },
+                          'Add Donor',
+                        ),
                       ),
                     ),
                     Expanded(
-                      child: VerticalCard(
-                        Icons.search,
-                        () {
-                          Navigator.pushAndRemoveUntil(context,
-                              MaterialPageRoute(
-                            builder: (context) {
-                              return SearchScreen();
-                            },
-                          ), (route) => false);
-                        },
-                        'Search Donor',
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 8.0),
+                        child: VerticalCard(
+                          Icons.search,
+                          () {
+                            Navigator.pushAndRemoveUntil(context,
+                                MaterialPageRoute(
+                              builder: (context) {
+                                return SearchScreen();
+                              },
+                            ), (route) => false);
+                          },
+                          'Search Donor',
+                        ),
                       ),
                     ),
                   ],

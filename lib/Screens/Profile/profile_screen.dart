@@ -23,7 +23,7 @@ class ProfileScreen extends KFDrawerContent {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   User user = FirebaseAuth.instance.currentUser!;
-  late XFile _imageFile;
+  File? _imageFile;
   final ImagePicker _picker = ImagePicker();
 
   @override
@@ -31,6 +31,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     Size _height = MediaQuery.of(context).size;
     return WillPopScope(
       child: Scaffold(
+        resizeToAvoidBottomInset: true,
         appBar: AppBar(
           leading: Builder(
             builder: (context) => IconButton(
@@ -47,7 +48,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           backgroundColor: kPrimaryColor,
           foregroundColor: Colors.black,
           onPressed: () {
-            Navigator.pushReplacement(
+            Navigator.push(
                 context,
                 MaterialPageRoute(
                     builder: (BuildContext context) => EditProfileForm()));
@@ -58,9 +59,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
         body: ConnectivityStatus(
           child: Column(
             children: <Widget>[
-              SizedBox(height: _height.height * 0.02),
+              // SizedBox(height: _height.height * 0.02),
               Container(
-                height: _height.height * 0.3,
+                // height: _height.height * 0.3,
                 child: Column(
                   children: <Widget>[
                     Padding(
@@ -83,7 +84,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           ),
                                     fit: BoxFit.cover,
                                   ) : DecorationImage(image: FileImage(
-                                    File(_imageFile.path),
+                                    File(_imageFile!.path.toString()),
                                   )),
                                 ),
                               ),
@@ -119,9 +120,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ],
                       ),
                     ),
-                    SizedBox(
-                      height: _height.height * 0.02,
-                    ),
+                    // SizedBox(
+                    //   height: _height.height * 0.02,
+                    // ),
                     TextButton(
                       onPressed: () {
                         showModalBottomSheet(
@@ -129,6 +130,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               borderRadius: BorderRadius.circular(10.0),
                             ),
                             context: context,
+                            isScrollControlled: true,
                             builder: ((context) => SingleChildScrollView(
                                   child: Container(
                                     padding: EdgeInsets.only(
@@ -220,7 +222,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       source: source,
     );
     setState(() {
-      _imageFile = pickedFile!;
+      _imageFile = File(pickedFile!.path.toString());
     });
   }
 

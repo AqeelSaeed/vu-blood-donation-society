@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:plasma_donor/Screens/AdminDashBoard/AdminDashboard_Screen.dart';
 import 'package:plasma_donor/Screens/UserDashBoard/UserDashboard_Screen.dart';
+import 'package:plasma_donor/providers/network_provider.dart';
+import 'package:provider/provider.dart';
 import 'Components/RegisterClassses.dart';
 import 'Screens/Slider/getstarted_screen.dart';
 
@@ -36,20 +38,23 @@ class _MyAppState extends State<MyApp> {
   }
 
   Widget build(BuildContext context) {
-    // FlutterStatusbarcolor.setStatusBarColor(kPrimaryColor);
-    // FlutterStatusbarcolor.setNavigationBarColor(kPrimaryColor);
     SystemChrome.setPreferredOrientations(
       [
         DeviceOrientation.portraitUp,
       ],
     );
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Plasma Donor',
-      theme: ThemeData(
-        scaffoldBackgroundColor: Colors.white,
+    return MultiProvider(
+        providers: [
+          ChangeNotifierProvider(create: (context)=> DataProvider())
+        ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Plasma Donor',
+        theme: ThemeData(
+          scaffoldBackgroundColor: Colors.white,
+        ),
+        home: _firstWidget,
       ),
-      home: _firstWidget,
     );
   }
 }

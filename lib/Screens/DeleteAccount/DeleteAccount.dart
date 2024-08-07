@@ -15,7 +15,7 @@ class DeleteAccount extends StatefulWidget {
 
 class _DeleteAccountState extends State<DeleteAccount> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  late String _email;
+  String? _email;
 
   @override
   Widget build(BuildContext context) {
@@ -24,13 +24,15 @@ class _DeleteAccountState extends State<DeleteAccount> {
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
-          title: Text('Delete Account'),
+          title: Text('Delete Account', style: TextStyle(color: kWhiteColor),),
           centerTitle: true,
           backgroundColor: kPrimaryColor,
           leading: Builder(
             builder: (context) => IconButton(
-              icon: Icon(Icons.arrow_back_rounded),
-              onPressed: onBackPressed,
+              icon: Icon(Icons.arrow_back_rounded, color: kWhiteColor,),
+              onPressed: (){
+                Navigator.pop(context);
+              },
             ),
           ),
         ),
@@ -118,7 +120,7 @@ class _DeleteAccountState extends State<DeleteAccount> {
                             ElevatedButton(
                               style: ElevatedButton.styleFrom(
                                   backgroundColor: kPrimaryColor),
-                              child: Text('Delete My Account'),
+                              child: Text('Delete My Account', style: TextStyle(color: kWhiteColor),),
                               onPressed: _updatePassword,
                             ),
                           ],
@@ -137,11 +139,6 @@ class _DeleteAccountState extends State<DeleteAccount> {
   }
 
   Future<bool> onBackPressed() async{
-    await Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
-      builder: (context) {
-        return SettingScreen();
-      },
-    ), (route) => false);;
     return Future.value(true);
   }
 

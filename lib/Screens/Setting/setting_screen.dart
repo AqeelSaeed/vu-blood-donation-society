@@ -28,12 +28,12 @@ class _SettingScreenState extends State<SettingScreen> {
           backgroundColor: kPrimaryColor,
           leading: Builder(
             builder: (context) => IconButton(
-              icon: Icon(Icons.menu_outlined),
+              icon: Icon(Icons.menu_outlined, color: kWhiteColor,),
               onPressed: widget.onMenuPressed,
             ),
           ),
           centerTitle: true,
-          title: Text('Account Setting'),
+          title: Text('Account Setting', style: TextStyle(color: kWhiteColor),),
         ),
         body: Container(
           width: double.infinity,
@@ -45,7 +45,7 @@ class _SettingScreenState extends State<SettingScreen> {
                 MoveOn(
                   Icons.lock_outline,
                   () {
-                    Navigator.of(context).pushReplacement(
+                    Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (context) => ChangePasswordScreen(),
                       ),
@@ -54,14 +54,14 @@ class _SettingScreenState extends State<SettingScreen> {
                   'Change Password',
                 ),
                 MoveOn(Icons.email_outlined, () {
-                  Navigator.of(context).pushReplacement(
+                  Navigator.of(context).push(
                     MaterialPageRoute(
                       builder: (context) => ChangeEmail(),
                     ),
                   );
                 }, 'Change Email'),
                 MoveOn(Icons.delete_outline, () {
-                  Navigator.of(context).pushReplacement(
+                  Navigator.of(context).push(
                     MaterialPageRoute(
                       builder: (context) => DeleteAccount(),
                     ),
@@ -77,7 +77,7 @@ class _SettingScreenState extends State<SettingScreen> {
   }
 
   Future<bool> onBackPressed() {
-    if (_userId == "kspMRxCsY8ata5y018RSwtreovS2") {
+    if (_userId == "FhfHklNx51e3wio9M2BSAdqYzv73") {
       Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
         builder: (context) {
           return AdminDashboardScreen();

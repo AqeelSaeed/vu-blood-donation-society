@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +9,8 @@ import 'package:plasma_donor/Components/ConnectivityStatus.dart';
 import 'package:plasma_donor/Components/DashboardCard.dart';
 import 'package:plasma_donor/Components/constants.dart';
 import 'package:plasma_donor/Screens/Donors/donor_screen.dart';
+import 'package:plasma_donor/Screens/Profile/components/EditProfile.dart';
+import 'package:plasma_donor/Screens/Profile/profile_screen.dart';
 import 'package:plasma_donor/Screens/Requests/requests_screen.dart';
 
 // ignore: must_be_immutable
@@ -28,14 +32,16 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
       if (documentSnapshot.exists) {
         print('Document are exist on the database');
       } else {
+        // infoDialog();
         _addData.doc(user.uid).set({
-          'Name': user.displayName,
-          'Phone Number': '"Phone Number"',
-          'About': 'About',
-          'Blood Group': 'Blood Group',
-          'Gender': 'Gender',
-          'location': 'Location',
-          'searchIndex': '',
+          'name': user.displayName,
+          'phoneNumber': '',
+          'about': '',
+          'bloodGroup': '',
+          'gender': '',
+          'location': '',
+          'user-image': 'https://cdn-icons-png.flaticon.com/512/149/149071.png',
+          'searchIndex': <String>[],
         });
       }
     });
@@ -44,6 +50,7 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
 
   Widget build(BuildContext context) {
     Size _height = MediaQuery.of(context).size;
+    log('userName: ${user.displayName}');
     return WillPopScope(
       child: Scaffold(
         appBar: AppBar(
@@ -153,5 +160,33 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
       });
       print('done none');
     }
+  }
+
+  infoDialog(){
+    showDialog(context: context, builder: (context){
+      return Dialog(
+        child: Container(
+          height: 100,
+          decoration: BoxDecoration(
+            color: kWhiteColor,
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Text('Please complete your profile first.'),
+              OutlinedButton(
+                  onPressed: (){
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => EditProfileForm()));
+                  },
+                  style: OutlinedButton.styleFrom(
+                    backgroundColor: kPrimaryColor
+                  ),
+                  child: Text('Ok', style: TextStyle(color: kWhiteColor),))
+            ],
+          ),
+        ),
+      );
+    });
   }
 }

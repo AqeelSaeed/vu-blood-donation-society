@@ -3,6 +3,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:plasma_donor/Components/constants.dart';
+import 'package:provider/provider.dart';
+
+import '../../../providers/network_provider.dart';
 
 
 class NameBottomSheet extends StatefulWidget {
@@ -76,11 +79,12 @@ class _NameBottomSheetState extends State<NameBottomSheet> {
       formState.save();
       try {
         _addData.doc(user.uid).update({
-          'Name': _name,
+          'name': _name,
         });
         user.updateProfile(
           displayName: _name,
         );
+        Provider.of<DataProvider>(context, listen: false).fetchAdminProfile();
         Navigator.pop(context);
         Fluttertoast.showToast(
           msg: "Name updated successfully",

@@ -153,7 +153,9 @@ class _BodyState extends State<Body> {
                               ElevatedButton(
                                 style: ElevatedButton.styleFrom(
                                     backgroundColor: kPrimaryColor),
-                                child: Text('Register'),
+                                child: Text('Register', style: TextStyle(
+                                  color: kWhiteColor
+                                ),),
                                 onPressed: () async {
                                   final progress = ProgressHUD.of(context);
                                   final formState = _formKey.currentState;
@@ -216,6 +218,7 @@ class _BodyState extends State<Body> {
                           ),
                         ],
                       ),
+                      SizedBox(height: _height.height * 0.02),
                     ],
                   ),
                 ],

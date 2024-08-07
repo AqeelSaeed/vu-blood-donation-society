@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:plasma_donor/Components/ConnectivityStatus.dart';
@@ -15,16 +17,18 @@ class _ActiveUsersState extends State<ActiveUsers> {
   @override
   Widget build(BuildContext context) {
     Size _height = MediaQuery.of(context).size;
-    return WillPopScope(
+    return PopScope(
       child: Scaffold(
         appBar: AppBar(
           leading: Builder(
             builder: (context) => IconButton(
-              icon: Icon(Icons.arrow_back_rounded),
-              onPressed: (){},
+              icon: Icon(Icons.arrow_back_rounded, color: kWhiteColor,),
+              onPressed: (){
+                onBackPressed();
+              },
             ),
           ),
-          title: Text('Active Users'),
+          title: Text('Active Users', style: TextStyle(color: kWhiteColor),),
           centerTitle: true,
           backgroundColor: kPrimaryColor,
         ),
@@ -94,20 +98,24 @@ class _ActiveUsersState extends State<ActiveUsers> {
           ),
         ),
       ),
-      onWillPop: (){
-        return Future.value(true);
+      canPop: false,
+      onPopInvoked: (value){
+        log('onPopInvoked: $value');
+        onBackPressed();
       },
     );
   }
-  Future<bool> onBackPressed() async {
-    await Navigator.pushAndRemoveUntil(
+
+
+
+   onBackPressed() {
+    Navigator.pushAndRemoveUntil(
       context,
       MaterialPageRoute(
         builder: (context) => AdminDashboardScreen(),
       ),
           (route) => false,
     );
-    return Future.value(true);
   }
 
 }

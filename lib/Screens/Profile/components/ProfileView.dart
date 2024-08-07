@@ -38,23 +38,23 @@ class _ProfileViewState extends State<ProfileView> {
                 margin: EdgeInsets.all(10),
                 child: Column(
                   children: <Widget>[
-                    BorderView('${snapshot.data!['Phone Number']}', Icons.phone),
+                    BorderView('${snapshot.data!['phoneNumber'] ?? 'Phone Number'} ', Icons.phone),
                     BorderView(
-                      '${snapshot.data!['location']}',
+                      '${snapshot.data!['location'] ?? 'Location'}',
                       Icons.location_on,
                     ),
-                    BorderView('${snapshot.data!['About']}', Icons.info),
+                    BorderView('${snapshot.data!['about'] ?? 'About'}', Icons.info),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
                         Flexible(
-                          child: BorderView('${snapshot.data!['Blood Group']}',
+                          child: BorderView('${snapshot.data!['bloodGroup']}',
                               Icons.local_hospital),
                         ),
                         SizedBox(width: 10),
                         Flexible(
                           child: BorderView(
-                              '${snapshot.data!['Gender']}', Icons.person),
+                              '${snapshot.data!['gender']}', Icons.person),
                         ),
                       ],
                     ),

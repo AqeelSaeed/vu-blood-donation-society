@@ -41,16 +41,17 @@ class _RaiseRequestScreenState extends State<RaiseRequestScreen> {
         appBar: AppBar(
           leading: Builder(
             builder: (context) => IconButton(
-              icon: Icon(Icons.arrow_back_rounded),
+              icon: Icon(Icons.arrow_back_rounded,color: kWhiteColor,),
               onPressed: onBackPressed,
             ),
           ),
-          title: Text('Raise Request'),
+          title: Text('Raise Request', style: TextStyle(color: kWhiteColor),),
           centerTitle: true,
           backgroundColor: kPrimaryColor,
           actions: <Widget>[
             PopupMenuButton<String>(
               onSelected: handleClick,
+              iconColor: kWhiteColor,
               itemBuilder: (BuildContext context) {
                 return {'Pending Requests', 'Completed Requests'}
                     .map((String choice) {
@@ -69,7 +70,7 @@ class _RaiseRequestScreenState extends State<RaiseRequestScreen> {
           foregroundColor: Colors.black,
           tooltip: 'Raise Request',
           onPressed: () {
-            Navigator.pushReplacement(
+            Navigator.push(
                 context,
                 MaterialPageRoute(
                     builder: (BuildContext context) => RaiseRequestForm()));
@@ -81,10 +82,10 @@ class _RaiseRequestScreenState extends State<RaiseRequestScreen> {
           child: Column(
             children: <Widget>[
               SizedBox(height: _height.height * 0.03),
-              Image.asset(
-                "assets/images/blood.png",
-                height: _height.height * 0.3,
-              ),
+              // Image.asset(
+              //   "assets/images/blood.png",
+              //   height: _height.height * 0.3,
+              // ),
               Expanded(
                 child: StreamBuilder<QuerySnapshot>(
                   stream: FirebaseFirestore.instance
@@ -132,15 +133,15 @@ class _RaiseRequestScreenState extends State<RaiseRequestScreen> {
                                                     Navigator.pop(context);
                                                   },
                                                   "${value['location']}",
-                                                  "${value['About']}",
-                                                  "${value['Name']}",
-                                                  "${value['Phone Number']}",
-                                                  "${value['Blood Group']}",
+                                                  "${value['about']}",
+                                                  "${value['name']}",
+                                                  "${value['phoneNumber']}",
+                                                  "${value['bloodGroup']}",
                                                   'Delete Request',
                                                 );
                                               });
                                         },
-                                        '${value['Name']}',
+                                        '${value['name']}',
                                         () {},
                                       ),
                                     ))

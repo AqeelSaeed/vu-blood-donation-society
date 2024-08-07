@@ -15,8 +15,8 @@ class ChangeEmail extends StatefulWidget {
 
 class _ChangeEmailState extends State<ChangeEmail> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  late String _email;
-  late String _newEmail;
+  String? _email;
+  String? _newEmail;
 
   @override
   Widget build(BuildContext context) {
@@ -25,13 +25,15 @@ class _ChangeEmailState extends State<ChangeEmail> {
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
-          title: Text('Change Email'),
+          title: Text('Change Email', style: TextStyle(color: kWhiteColor),),
           centerTitle: true,
           backgroundColor: kPrimaryColor,
           leading: Builder(
             builder: (context) => IconButton(
-              icon: Icon(Icons.arrow_back_rounded),
-              onPressed: onBackPressed,
+              icon: Icon(Icons.arrow_back_rounded, color: kWhiteColor,),
+              onPressed: (){
+                Navigator.pop(context);
+              },
             ),
           ),
         ),
@@ -117,7 +119,7 @@ class _ChangeEmailState extends State<ChangeEmail> {
                             ElevatedButton(
                               style: ElevatedButton.styleFrom(
                                   backgroundColor: kPrimaryColor),
-                              child: Text('Change Email'),
+                              child: Text('Change Email', style: TextStyle(color: kWhiteColor),),
                               onPressed: _updateEmail,
                             ),
                           ],
@@ -136,11 +138,6 @@ class _ChangeEmailState extends State<ChangeEmail> {
   }
 
   Future<bool> onBackPressed() async{
-    await Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
-      builder: (context) {
-        return SettingScreen();
-      },
-    ), (route) => false);
     return Future.value(true);
   }
 
@@ -151,7 +148,7 @@ class _ChangeEmailState extends State<ChangeEmail> {
       try {
         User user = FirebaseAuth.instance.currentUser!;
         if (_email == user.email) {
-          user.updateEmail(_email);
+          user.verifyBeforeUpdateEmail(_email!);
           Fluttertoast.showToast(
             msg: "Email Changed successfully",
             gravity: ToastGravity.BOTTOM,

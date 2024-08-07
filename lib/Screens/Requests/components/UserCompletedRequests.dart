@@ -75,15 +75,15 @@ class _UserCompletedRequestsState extends State<UserCompletedRequests> {
                                                   Navigator.pop(context);
                                                 },
                                                 "${value['location']}",
-                                                "${value['About']}",
-                                                "${value['Name']}",
-                                                "${value['Phone Number']}",
-                                                "${value['Blood Group']}",
+                                                "${value['about']}",
+                                                "${value['name']}",
+                                                "${value['phoneNumber']}",
+                                                "${value['bloodGroup']}",
                                                 'close',
                                               );
                                             });
                                       },
-                                      '${value['Name']}',
+                                      '${value['name']}',
                                       () {},
                                     ),
                                   ))

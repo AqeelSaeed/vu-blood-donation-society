@@ -15,7 +15,7 @@ class SearchScreen extends StatefulWidget {
 
 class _SearchScreenState extends State<SearchScreen> {
   String _userId = FirebaseAuth.instance.currentUser!.uid;
-  late String _query;
+  String? _query;
 
   @override
   Widget build(BuildContext context) {
@@ -23,12 +23,12 @@ class _SearchScreenState extends State<SearchScreen> {
     return WillPopScope(
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Search Donor'),
+          title: Text('Search Donor', style: TextStyle(color: kWhiteColor),),
           centerTitle: true,
           backgroundColor: kPrimaryColor,
           leading: Builder(
             builder: (context) => IconButton(
-              icon: Icon(Icons.arrow_back_rounded),
+              icon: Icon(Icons.arrow_back_rounded, color: kWhiteColor,),
               onPressed: onBackPressed,
             ),
           ),
@@ -69,7 +69,7 @@ class _SearchScreenState extends State<SearchScreen> {
                 SizedBox(height: 10.0),
                 Expanded(
                   child: StreamBuilder<QuerySnapshot>(
-                    stream: (_query == null || _query.trim() == '')
+                    stream: (_query == null || _query.toString().trim() == '')
                         ? FirebaseFirestore.instance
                             .collection('Profile')
                             .snapshots()
@@ -110,7 +110,7 @@ class _SearchScreenState extends State<SearchScreen> {
   }
 
   Future<bool> onBackPressed() {
-    if (_userId == "kspMRxCsY8ata5y018RSwtreovS2") {
+    if (_userId == "FhfHklNx51e3wio9M2BSAdqYzv73") {
       Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
         builder: (context) {
           return AdminDashboardScreen();
@@ -135,29 +135,32 @@ class List extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView(
-        children: _snapshot.data!.docs
-            .map((DocumentSnapshot doc) => Next(
-                  Icons.person,
-                  () {
-                    showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return ProfileReview(
-                            () {
-                              Navigator.pop(context);
-                            },
-                            "${doc['location']}",
-                            "${doc['About']}",
-                            "${doc['Name']}",
-                            "${doc['Phone Number']}",
-                            "${doc['Blood Group']}",
-                            'Close',
-                          );
-                        });
+      children: _snapshot.data!.docs.map((DocumentSnapshot doc) {
+        Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+        return Next(
+          Icons.person,
+              () {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return ProfileReview(
+                      () {
+                    Navigator.pop(context);
                   },
-                  '${doc['Name']}',
-                  () {},
-                ))
-            .toList());
+                  "${data['location'] ?? ''}",
+                  "${data['about'] ?? ''}",
+                  "${data['name'] ?? ''}",
+                  "${data['phoneNumber'] ?? ''}",
+                  "${data['bloodGroup'] ?? ''}",
+                  'Close',
+                );
+              },
+            );
+          },
+          '${data['name'] ?? ''}',
+              () {},
+        );
+      }).toList(),
+    );
   }
 }

@@ -9,7 +9,6 @@ import 'package:plasma_donor/Screens/AddDonor/components/AddDonorForm.dart';
 import 'package:plasma_donor/Screens/AdminDashBoard/AdminDashboard_Screen.dart';
 
 
-// ignore: must_be_immutable
 class AddDonorScreen extends StatefulWidget {
   @override
   _ProfileScreenState createState() => _ProfileScreenState();
@@ -22,12 +21,12 @@ class _ProfileScreenState extends State<AddDonorScreen> {
     return WillPopScope(
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Add Donor'),
+          title: Text('Add Donor', style: TextStyle(color: kWhiteColor)),
           centerTitle: true,
           backgroundColor: kPrimaryColor,
           leading: Builder(
             builder: (context) => IconButton(
-              icon: Icon(Icons.arrow_back_rounded),
+              icon: Icon(Icons.arrow_back_rounded, color: kWhiteColor,),
               onPressed: onBackPressed,
             ),
           ),
@@ -37,7 +36,7 @@ class _ProfileScreenState extends State<AddDonorScreen> {
           backgroundColor: kPrimaryColor,
           foregroundColor: Colors.black,
           onPressed: () {
-            Navigator.pushReplacement(
+            Navigator.push(
                 context,
                 MaterialPageRoute(
                     builder: (BuildContext context) => AddDonorForm()));
@@ -99,15 +98,15 @@ class _ProfileScreenState extends State<AddDonorScreen> {
                                                   Navigator.pop(context);
                                                 },
                                                 "${value['location']}",
-                                                "${value['About']}",
-                                                "${value['Name']}",
-                                                "${value['Phone Number']}",
-                                                "${value['Blood Group']}",
+                                                "${value['about']}",
+                                                "${value['name']}",
+                                                "${value['phoneNumber']}",
+                                                "${value['bloodGroup']}",
                                                 'Delete Request',
                                               );
                                             });
                                       },
-                                      '${value['Name']}',
+                                      '${value['name']}',
                                       () {},
                                     ),
                                   ))

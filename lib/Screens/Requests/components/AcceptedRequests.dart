@@ -47,7 +47,7 @@ class _AcceptedRequestByUserState extends State<AcceptedRequestByUser> {
                 child: StreamBuilder<QuerySnapshot>(
                   stream: FirebaseFirestore.instance
                       .collection('Requests')
-                      .where('Accept By', isEqualTo: user.uid)
+                      .where('accept-by', isEqualTo: user.uid)
                       .snapshots(),
                   builder: (context, snapshot) {
                     if (snapshot.hasError) {
@@ -78,15 +78,15 @@ class _AcceptedRequestByUserState extends State<AcceptedRequestByUser> {
                                                     Navigator.pop(context);
                                                   },
                                                   "${value['location']}",
-                                                  "${value['About']}",
-                                                  "${value['Name']}",
-                                                  "${value['Phone Number']}",
-                                                  "${value['Blood Group']}",
+                                                  "${value['about']}",
+                                                  "${value['name']}",
+                                                  "${value['phoneNumber']}",
+                                                  "${value['bloodGroup']}",
                                                   'Close',
                                                 );
                                               });
                                         },
-                                        '${value['Name']}',
+                                        '${value['name']}',
                                         () {
                                           showModalBottomSheet(
                                             context: context,
@@ -107,12 +107,12 @@ class _AcceptedRequestByUserState extends State<AcceptedRequestByUser> {
                                                           .set({
                                                         'Completed By':
                                                             user.uid,
-                                                        'Name': value['Name'],
-                                                        'Phone Number': value[
-                                                            'Phone Number'],
-                                                        'About': value['About'],
-                                                        'Blood Group': value[
-                                                            'Blood Group'],
+                                                        'name': value['name'],
+                                                        'phoneNumber': value[
+                                                            'phoneNumber'],
+                                                        'about': value['about'],
+                                                        'bloodGroup': value[
+                                                            'bloodGroup'],
                                                         'location':
                                                             value['location'],
                                                       });
@@ -135,7 +135,7 @@ class _AcceptedRequestByUserState extends State<AcceptedRequestByUser> {
                                                               .docs[index].id)
                                                           .update({
                                                         'Is Accepted': false,
-                                                        'Accept By': '',
+                                                        'accept-by': '',
                                                       });
                                                       Navigator.pop(context);
                                                       Fluttertoast.showToast(

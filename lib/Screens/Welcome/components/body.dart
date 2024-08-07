@@ -133,9 +133,8 @@ class _BodyState extends State<Body> {
                                   ),
                                 ),
                               ),
-                              Padding(
-                                padding:
-                                    EdgeInsets.only(left: _height.width * 0.6),
+                              Align(
+                                alignment: Alignment.centerRight,
                                 child: TextButton(
                                   onPressed: () {
                                     Navigator.push(
@@ -159,7 +158,9 @@ class _BodyState extends State<Body> {
                               ElevatedButton(
                                 style: ElevatedButton.styleFrom(
                                     backgroundColor: kPrimaryColor),
-                                child: Text('Log In'),
+                                child: Text('Login', style: TextStyle(
+                                  color: kWhiteColor
+                                ),),
                                 onPressed: () async {
                                   final progress = ProgressHUD.of(context);
                                   final formState = _formKey.currentState;
@@ -173,7 +174,7 @@ class _BodyState extends State<Body> {
                                               password: _password);
                                       if (user != null) {
                                         if (_email ==
-                                            "asadmalik.5484@gmail.com") {
+                                            "aqeelsaeed15@gmail.com") {
                                           Navigator.of(context).pushReplacement(
                                             MaterialPageRoute(
                                               builder: (context) =>
@@ -227,6 +228,7 @@ class _BodyState extends State<Body> {
                           ),
                         ],
                       ),
+                      SizedBox(height: _height.height * 0.02),
                     ],
                   ),
                 ],

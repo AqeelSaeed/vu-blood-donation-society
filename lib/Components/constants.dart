@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 const kPrimaryColor = Color(0xFFc62828);
 const kPrimaryLightColor = Color(0xF7e3745);
+const kWhiteColor = Color(0xFFFFFFFF);
 
 const kTextFormFieldDecoration = InputDecoration(
   labelText: 'Email',

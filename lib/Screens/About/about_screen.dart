@@ -20,10 +20,10 @@ class _AboutScreenState extends State<AboutScreen> {
     return WillPopScope(
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Change Password'),
+          title: Text('Change Password', style: TextStyle(color: kWhiteColor),),
           leading: Builder(
             builder: (context) => IconButton(
-              icon: Icon(Icons.menu),
+              icon: Icon(Icons.menu, color: kWhiteColor,),
               onPressed: widget.onMenuPressed,
             ),
           ),
@@ -75,7 +75,7 @@ class _AboutScreenState extends State<AboutScreen> {
   }
 
   Future<bool> onBackPressed() {
-    if (_userId == "kspMRxCsY8ata5y018RSwtreovS2") {
+    if (_userId == "FhfHklNx51e3wio9M2BSAdqYzv73") {
       Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
         builder: (context) {
           return AdminDashboardScreen();

@@ -33,7 +33,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
           text:
               Text('Home', style: TextStyle(color: Colors.white, fontSize: 18)),
           icon: Icon(Icons.home, color: Colors.white),
-          page: user.uid == "kspMRxCsY8ata5y018RSwtreovS2"
+          page: user.uid == "FhfHklNx51e3wio9M2BSAdqYzv73"
               ? AdminHomeScreen()
               : UserHomeScreen(),
         ),

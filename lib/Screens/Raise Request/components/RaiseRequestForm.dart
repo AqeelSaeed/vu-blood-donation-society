@@ -13,12 +13,12 @@ class RaiseRequestForm extends StatefulWidget {
 class _RaiseRequestFormState extends State<RaiseRequestForm> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   User user = FirebaseAuth.instance.currentUser!;
-  late String _bloodGroup;
-  late String _name;
-  late String _address;
-  late String _gender;
-  late String _mobileNo;
-  late String _about;
+  String? _bloodGroup;
+  String? _name;
+  String? _address;
+  String? _gender;
+  String? _mobileNo;
+  String? _about;
   List _bloodGroupItem = ["A+", "A-", "B+", "B-", "O+", "O-", "AB+", "AB-"];
   List _genderItem = ["Male", "Female", "other"];
   CollectionReference _addData =
@@ -76,7 +76,7 @@ class _RaiseRequestFormState extends State<RaiseRequestForm> {
                           Icons.person,
                           color: kPrimaryColor,
                         ),
-                        labelText: 'Full Name',
+                        labelText: 'Patient Name',
                         labelStyle: TextStyle(color: kPrimaryColor),
                         focusedBorder: UnderlineInputBorder(
                           borderSide: BorderSide(color: kPrimaryColor),
@@ -139,7 +139,7 @@ class _RaiseRequestFormState extends State<RaiseRequestForm> {
                           Icons.info_outline_rounded,
                           color: kPrimaryColor,
                         ),
-                        labelText: 'About',
+                        labelText: 'Case',
                         labelStyle: TextStyle(color: kPrimaryColor),
                         focusedBorder: UnderlineInputBorder(
                           borderSide: BorderSide(color: kPrimaryColor),
@@ -187,7 +187,7 @@ class _RaiseRequestFormState extends State<RaiseRequestForm> {
                           padding: const EdgeInsets.only(left: 10.0),
                           child: DropdownButton(
                             hint: Text(
-                              "Select Your Gender",
+                              "Select Patient Gender",
                               style: TextStyle(color: kPrimaryColor),
                             ),
                             value: _gender,
@@ -210,7 +210,7 @@ class _RaiseRequestFormState extends State<RaiseRequestForm> {
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(backgroundColor: kPrimaryColor),
                       onPressed: _raiseRequest,
-                      child: Text('Raise Request'),
+                      child: Text('Raise Request', style: TextStyle(color: kWhiteColor),),
                     ),
                   ],
                 ),
@@ -229,12 +229,12 @@ class _RaiseRequestFormState extends State<RaiseRequestForm> {
       formState.save();
       try {
         _addData.doc().set({
-          'Name': _name,
-          'Phone Number': _mobileNo,
-          'About': _about,
-          'Accept By': '',
-          'Blood Group': _bloodGroup,
-          'Gender': _gender,
+          'name': _name,
+          'phoneNumber': _mobileNo,
+          'case': _about,
+          'accept-by': '',
+          'bloodGroup': _bloodGroup,
+          'gender': _gender,
           'location': _address,
         });
         Fluttertoast.showToast(

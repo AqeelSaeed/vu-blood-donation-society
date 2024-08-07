@@ -74,7 +74,9 @@ class _BodyState extends State {
               padding: EdgeInsets.symmetric(horizontal: 60, vertical: 16),
               textStyle: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
-            child: Text('Get Started'),
+            child: Text('Get Started', style: TextStyle(
+              color: kWhiteColor
+            ),),
             onPressed: () {
               Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
                 builder: (context) {

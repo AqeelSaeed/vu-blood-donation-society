@@ -35,10 +35,10 @@ class _RequestsScreenState extends State<RequestsScreen> {
     return WillPopScope(
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Requests'),
+          title: Text('Requests', style: TextStyle(color: kWhiteColor),),
           leading: Builder(
             builder: (context) => IconButton(
-              icon: Icon(Icons.arrow_back_rounded),
+              icon: Icon(Icons.arrow_back_rounded, color: kWhiteColor,),
               onPressed: onBackPressed,
             ),
           ),
@@ -47,6 +47,7 @@ class _RequestsScreenState extends State<RequestsScreen> {
           actions: <Widget>[
             PopupMenuButton<String>(
               onSelected: handleClick,
+              iconColor: kWhiteColor,
               itemBuilder: (BuildContext context) {
                 return {'Completed Requests'}.map((String choice) {
                   return PopupMenuItem<String>(
@@ -64,7 +65,7 @@ class _RequestsScreenState extends State<RequestsScreen> {
           foregroundColor: Colors.black,
           tooltip: 'Accepted Requests',
           onPressed: () {
-            Navigator.pushReplacement(
+            Navigator.push(
                 context,
                 MaterialPageRoute(
                     builder: (BuildContext context) =>
@@ -153,13 +154,13 @@ class List extends StatelessWidget {
                             builder: (context, snapshot2) {
                               return ProfileReview(
                                 () {
-                                  if (snapshot2.data!['Accept By'] == '') {
+                                  if (snapshot2.data!['accept-by'] == '') {
                                     FirebaseFirestore.instance
                                         .collection('Requests')
                                         .doc(_snapshot.data!.docs[index].id)
                                         .update({
                                       'Is Accepted': true,
-                                      'Accept By': user.uid,
+                                      'accept-by': user.uid,
                                     });
                                     Fluttertoast.showToast(
                                       msg: "Request accepted successfully",
@@ -167,7 +168,7 @@ class List extends StatelessWidget {
                                     );
                                     Navigator.pop(context);
                                   } else {
-                                    if (snapshot2.data!['Accept By'] ==
+                                    if (snapshot2.data!['accept-by'] ==
                                         user.uid) {
                                       Fluttertoast.showToast(
                                         msg: "You have already accepted",
@@ -183,17 +184,17 @@ class List extends StatelessWidget {
                                   }
                                 },
                                 "${value['location']}",
-                                "${value['About']}",
-                                "${value['Name']}",
-                                "${value['Phone Number']}",
-                                "${value['Blood Group']}",
+                                "${value['about']}",
+                                "${value['name']}",
+                                "${value['phoneNumber']}",
+                                "${value['bloodGroup']}",
                                 'Accept Request',
                               );
                             },
                           );
                         });
                   },
-                  '${value['Name']}',
+                  '${value['name']}',
                   () {},
                 ),
               ))

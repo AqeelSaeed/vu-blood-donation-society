@@ -11,9 +11,9 @@ class ChangePasswordScreen extends StatefulWidget {
 }
 
 class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
-  late String _oldPassword;
-  late String _newPassword;
-  late String _confirmPassword;
+  String? _oldPassword;
+  String? _newPassword;
+  String? _confirmPassword;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   String? _validatePassword(String? input) {
@@ -39,13 +39,15 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
-          title: Text('Change Password'),
+          title: Text('Change Password', style: TextStyle(color: kWhiteColor),),
           centerTitle: true,
           backgroundColor: kPrimaryColor,
           leading: Builder(
             builder: (context) => IconButton(
-              icon: Icon(Icons.arrow_back_rounded),
-              onPressed: onBackPressed,
+              icon: Icon(Icons.arrow_back_rounded, color: kWhiteColor,),
+              onPressed: (){
+                Navigator.pop(context);
+              },
             ),
           ),
         ),
@@ -153,7 +155,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
                                 backgroundColor: kPrimaryColor),
-                            child: Text('Change Password'),
+                            child: Text('Change Password', style: TextStyle(color: kWhiteColor),),
                             onPressed: _updatePassword,
                           ),
                         ],
@@ -171,11 +173,6 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   }
 
   Future<bool> onBackPressed() async{
-    await Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
-      builder: (context) {
-        return SettingScreen();
-      },
-    ), (route) => false);
     return Future.value(true);
   }
 
@@ -185,7 +182,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
       formState.save();
       try {
         User user = FirebaseAuth.instance.currentUser!;
-        user.updatePassword(_confirmPassword);
+        user.updatePassword(_confirmPassword!);
         Fluttertoast.showToast(
           msg: "Raised request successfully",
           gravity: ToastGravity.BOTTOM,

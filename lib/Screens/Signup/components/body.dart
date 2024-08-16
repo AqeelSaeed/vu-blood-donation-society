@@ -169,35 +169,7 @@ class _BodyState extends State<Body> {
                                     formState.save();
                                     progress!.show();
                                     try {
-                                      await FirebaseAuth.instance
-                                          .createUserWithEmailAndPassword(
-                                              email: _email,
-                                              password: _password);
-                                      User user =
-                                          FirebaseAuth.instance.currentUser!;
-                                      // user.updateProfile(
-                                      //   displayName: _name,
-                                      // );
-                                      _addData.doc(user.uid).set({
-                                        'name': _name,
-                                        'phoneNumber': '',
-                                        'about': '',
-                                        'bloodGroup': '',
-                                        'gender': '',
-                                        'location': '',
-                                        'userType': prefs.getString('type').toString(),
-                                      });
-                                      Navigator.pushAndRemoveUntil(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                                WelcomeScreen(),
-                                          ),
-                                          (route) => false);
-                                      Fluttertoast.showToast(
-                                        msg: "Registered successfully",
-                                        gravity: ToastGravity.BOTTOM,
-                                      );
+                                      registerUser();
                                       progress.dismiss();
                                     } on FirebaseAuthException catch (error) {
                                       Fluttertoast.showToast(
@@ -244,4 +216,37 @@ class _BodyState extends State<Body> {
       ),
     );
   }
+
+  void registerUser() async {
+    await FirebaseAuth.instance
+        .createUserWithEmailAndPassword(
+        email: _email,
+        password: _password);
+    User user =
+    FirebaseAuth.instance.currentUser!;
+    // user.updateProfile(
+    //   displayName: _name,
+    // );
+    _addData.doc(user.uid).set({
+      'name': _name,
+      'phoneNumber': '',
+      'about': '',
+      'bloodGroup': '',
+      'gender': '',
+      'location': '',
+      'userType': prefs.getString('type').toString(),
+    });
+    Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(
+          builder: (context) =>
+              WelcomeScreen(),
+        ),
+            (route) => false);
+    Fluttertoast.showToast(
+      msg: "Registered successfully",
+      gravity: ToastGravity.BOTTOM,
+    );
+  }
+
 }

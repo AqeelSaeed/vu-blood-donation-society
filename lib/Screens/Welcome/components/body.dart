@@ -185,33 +185,8 @@ class _BodyState extends State<Body> {
                                     formState.save();
                                     progress!.show();
                                     try {
-                                      final user = await FirebaseAuth.instance
-                                          .signInWithEmailAndPassword(
-                                              email: _email,
-                                              password: _password);
-                                      if (user != null) {
-                                        if (_email ==
-                                            "aqeelsaeed15@gmail.com") {
-                                          Navigator.of(context).pushReplacement(
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                                  AdminDashboardScreen(),
-                                            ),
-                                          );
-                                        } else {
-                                          Navigator.of(context).pushReplacement(
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                                  UserDashboardScreen(),
-                                            ),
-                                          );
-                                        }
-                                        Fluttertoast.showToast(
-                                          msg: "Login successfully",
-                                          gravity: ToastGravity.BOTTOM,
-                                        );
-                                        progress.dismiss();
-                                      }
+                                      loginUser();
+                                      progress.dismiss();
                                     } on FirebaseAuthException catch (error) {
                                       Fluttertoast.showToast(
                                         msg: "${error.message}",
@@ -255,5 +230,35 @@ class _BodyState extends State<Body> {
         ),
       ),
     );
+  }
+
+  loginUser() async{
+    final user = await FirebaseAuth.instance
+        .signInWithEmailAndPassword(
+        email: _email,
+        password: _password);
+    if (user != null) {
+      if (_email ==
+          "aqeelsaeed15@gmail.com") {
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+            builder: (context) =>
+                AdminDashboardScreen(),
+          ),
+        );
+      } else {
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+            builder: (context) =>
+                UserDashboardScreen(),
+          ),
+        );
+      }
+      Fluttertoast.showToast(
+        msg: "Login successfully",
+        gravity: ToastGravity.BOTTOM,
+      );
+
+    }
   }
 }

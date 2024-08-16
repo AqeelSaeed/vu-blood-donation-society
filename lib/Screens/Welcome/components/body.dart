@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_progress_hud/flutter_progress_hud.dart';
@@ -12,6 +14,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:plasma_donor/Screens/UserDashBoard/UserDashboard_Screen.dart';
 import 'package:plasma_donor/Screens/Welcome/components/Create_an_Account.dart';
 
+import '../../../main.dart';
+
 
 class Body extends StatefulWidget {
   const Body({Key? key}) : super(key: key);
@@ -24,6 +28,7 @@ class _BodyState extends State<Body> {
   bool _isHidden = true;
   late String _email;
   late String _password;
+  String userType = prefs.getString('type').toString();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   void _toggleVisibility() {
@@ -34,9 +39,11 @@ class _BodyState extends State<Body> {
     );
   }
 
+
   @override
   Widget build(BuildContext context) {
     Size _height = MediaQuery.of(context).size;
+    log('message: $userType');
     return ConnectivityStatus(
       child: ProgressHUD(
         child: Builder(
@@ -66,6 +73,16 @@ class _BodyState extends State<Body> {
                       ),
                       Text(
                         'Recipient Connector ',
+                        style: TextStyle(
+                          fontFamily: 'Assistant',
+                          fontSize: 18.0,
+                          letterSpacing: 2.0,
+                          color: kPrimaryColor,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text(
+                        userType,
                         style: TextStyle(
                           fontFamily: 'Assistant',
                           fontSize: 18.0,
@@ -210,24 +227,24 @@ class _BodyState extends State<Body> {
                         ),
                       ),
                       CreateAnAccount(),
-                      OrDivider(),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          SocialIcon(
-                            iconSrc: "assets/icons/facebook.svg",
-                            press: () {},
-                          ),
-                          SocialIcon(
-                            iconSrc: "assets/icons/twitter.svg",
-                            press: () {},
-                          ),
-                          SocialIcon(
-                            iconSrc: "assets/icons/google-plus.svg",
-                            press: () {},
-                          ),
-                        ],
-                      ),
+                      // OrDivider(),
+                      // Row(
+                      //   mainAxisAlignment: MainAxisAlignment.center,
+                      //   children: <Widget>[
+                      //     SocialIcon(
+                      //       iconSrc: "assets/icons/facebook.svg",
+                      //       press: () {},
+                      //     ),
+                      //     SocialIcon(
+                      //       iconSrc: "assets/icons/twitter.svg",
+                      //       press: () {},
+                      //     ),
+                      //     SocialIcon(
+                      //       iconSrc: "assets/icons/google-plus.svg",
+                      //       press: () {},
+                      //     ),
+                      //   ],
+                      // ),
                       SizedBox(height: _height.height * 0.02),
                     ],
                   ),

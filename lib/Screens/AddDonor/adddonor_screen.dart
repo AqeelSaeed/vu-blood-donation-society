@@ -102,7 +102,7 @@ class _ProfileScreenState extends State<AddDonorScreen> {
                                                 "${value['name']}",
                                                 "${value['phoneNumber']}",
                                                 "${value['bloodGroup']}",
-                                                'Delete Request',
+                                                'Remove Donor',
                                               );
                                             });
                                       },

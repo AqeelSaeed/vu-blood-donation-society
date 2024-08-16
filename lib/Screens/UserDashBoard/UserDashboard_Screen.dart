@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -71,24 +72,32 @@ class _UserDashboardScreenState extends State<UserDashboardScreen> {
             width: MediaQuery.of(context).size.width * 0.8,
             child: Padding(
               padding: EdgeInsets.only(right: 50.0),
-              child: Column(
-                children: <Widget>[
-                  CircleAvatar(
-                    radius: 50.0,
-                    backgroundImage:
-                        ExactAssetImage('assets/images/_blankProfile.jpg'),
-                  ),
-                  SizedBox(height: 5),
-                  Text(
-                    user.displayName.toString(),
-                    style: TextStyle(color: Colors.white, fontSize: 18),
-                  ),
-                  Text(
-                    'User',
-                    style: TextStyle(color: Colors.white54, fontSize: 18),
-                  ),
-                ],
-              ),
+              child: StreamBuilder<DocumentSnapshot>(
+                  stream: FirebaseFirestore.instance.collection('Profile').doc(user.uid).snapshots(),
+                  builder: (context, snapshot){
+                    final data = snapshot.data!.data() as Map<String, dynamic>?;
+                    return Column(
+                      children: <Widget>[
+                        data!['user-image'] != null ? CircleAvatar(
+                          radius: 50.0,
+                          backgroundImage: NetworkImage(data['user-image'].toString()),
+                        ) : CircleAvatar(
+                          radius: 50.0,
+                          backgroundImage:
+                          ExactAssetImage('assets/images/_blankProfile.jpg'),
+                        ),
+                        SizedBox(height: 5),
+                        Text(
+                          data['name'] ?? '',
+                          style: TextStyle(color: Colors.white, fontSize: 18),
+                        ),
+                        Text(
+                          'User',
+                          style: TextStyle(color: Colors.white54, fontSize: 18),
+                        ),
+                      ],
+                    );
+                  }),
             ),
           ),
         ),

@@ -6,13 +6,17 @@ import 'package:plasma_donor/Screens/AdminDashBoard/AdminDashboard_Screen.dart';
 import 'package:plasma_donor/Screens/UserDashBoard/UserDashboard_Screen.dart';
 import 'package:plasma_donor/providers/network_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'Components/RegisterClassses.dart';
 import 'Screens/Slider/getstarted_screen.dart';
+
+late SharedPreferences prefs;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   ClassBuilder.registerClasses();
+  prefs = await SharedPreferences.getInstance();
   runApp(MyApp());
 }
 

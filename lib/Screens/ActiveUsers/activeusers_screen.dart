@@ -78,15 +78,15 @@ class _ActiveUsersState extends State<ActiveUsers> {
                                                   Navigator.pop(context);
                                                 },
                                                 "${doc['location']}",
-                                                "${doc['About']}",
-                                                "${doc['Name']}",
-                                                "${doc['Phone Number']}",
-                                                "${doc['Blood Group']}",
+                                                "${doc['about']}",
+                                                "${doc['name']}",
+                                                "${doc['phoneNumber']}",
+                                                "${doc['bloodGroup']}",
                                                 'Close',
                                               );
                                             });
                                       },
-                                      '${doc['Name']}',
+                                      '${doc['name']}',
                                       () {},
                                     ))
                                 .toList());

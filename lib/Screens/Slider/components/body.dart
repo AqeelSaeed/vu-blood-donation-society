@@ -3,6 +3,7 @@ import 'package:plasma_donor/Components/constants.dart';
 import 'package:plasma_donor/Screens/Slider/components/slideritems.dart';
 import 'package:plasma_donor/Screens/Welcome/welcome_screen.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:plasma_donor/continue_as.dart';
 
 class Body extends StatefulWidget {
   const Body({Key? key}) : super(key: key);
@@ -78,11 +79,10 @@ class _BodyState extends State {
               color: kWhiteColor
             ),),
             onPressed: () {
-              Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
-                builder: (context) {
-                  return WelcomeScreen();
-                },
-              ), (route) => false);
+
+              Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => SelectUserScreen()), (route) => false);
+              //
+
             },
           ),
         ],

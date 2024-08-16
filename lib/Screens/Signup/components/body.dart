@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +10,7 @@ import 'package:plasma_donor/Components/or_divider.dart';
 import 'package:plasma_donor/Components/social_icon.dart';
 import 'package:plasma_donor/Screens/Signup/components/Already_have_an_Account.dart';
 import 'package:plasma_donor/Screens/Welcome/welcome_screen.dart';
+import 'package:plasma_donor/main.dart';
 
 
 class Body extends StatefulWidget {
@@ -23,10 +25,14 @@ class _BodyState extends State<Body> {
   late String _password;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
+  CollectionReference _addData =
+  FirebaseFirestore.instance.collection('Profile');
+
   String? _validatePassword(String? input) {
     _password = input ?? '';
     Pattern pattern =
         r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$';
+
     RegExp regex = new RegExp(pattern.toString());
     print(input);
     if (input.toString().isEmpty) {
@@ -125,7 +131,7 @@ class _BodyState extends State<Body> {
                               TextFormField(
                                 autovalidateMode:
                                     AutovalidateMode.onUserInteraction,
-                                validator: _validatePassword,
+                                // validator: _validatePassword,
                                 onSaved: (input) => _password = input.toString(),
                                 cursorColor: kPrimaryColor,
                                 obscureText: _isHidden,
@@ -169,9 +175,18 @@ class _BodyState extends State<Body> {
                                               password: _password);
                                       User user =
                                           FirebaseAuth.instance.currentUser!;
-                                      user.updateProfile(
-                                        displayName: _name,
-                                      );
+                                      // user.updateProfile(
+                                      //   displayName: _name,
+                                      // );
+                                      _addData.doc(user.uid).set({
+                                        'name': _name,
+                                        'phoneNumber': '',
+                                        'about': '',
+                                        'bloodGroup': '',
+                                        'gender': '',
+                                        'location': '',
+                                        'userType': prefs.getString('type').toString(),
+                                      });
                                       Navigator.pushAndRemoveUntil(
                                           context,
                                           MaterialPageRoute(
@@ -200,24 +215,24 @@ class _BodyState extends State<Body> {
                         ),
                       ),
                       AlreadyAccount(),
-                      OrDivider(),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          SocialIcon(
-                            iconSrc: "assets/icons/facebook.svg",
-                            press: () {},
-                          ),
-                          SocialIcon(
-                            iconSrc: "assets/icons/twitter.svg",
-                            press: () {},
-                          ),
-                          SocialIcon(
-                            iconSrc: "assets/icons/google-plus.svg",
-                            press: () {},
-                          ),
-                        ],
-                      ),
+                      // OrDivider(),
+                      // Row(
+                      //   mainAxisAlignment: MainAxisAlignment.center,
+                      //   children: <Widget>[
+                      //     SocialIcon(
+                      //       iconSrc: "assets/icons/facebook.svg",
+                      //       press: () {},
+                      //     ),
+                      //     SocialIcon(
+                      //       iconSrc: "assets/icons/twitter.svg",
+                      //       press: () {},
+                      //     ),
+                      //     SocialIcon(
+                      //       iconSrc: "assets/icons/google-plus.svg",
+                      //       press: () {},
+                      //     ),
+                      //   ],
+                      // ),
                       SizedBox(height: _height.height * 0.02),
                     ],
                   ),

@@ -5,6 +5,21 @@ import 'package:plasma_donor/Components/BorderView.dart';
 import 'package:plasma_donor/Components/constants.dart';
 
 class ProfileView extends StatefulWidget {
+  String phoneNumber;
+  String about;
+  String bloodGroup;
+  String gender;
+  String location;
+
+
+  ProfileView({
+    required this.phoneNumber,
+    required this.about,
+    required this.bloodGroup,
+    required this.gender,
+    required this.location,
+  });
+
   @override
   _ProfileViewState createState() => _ProfileViewState();
 }
@@ -38,23 +53,23 @@ class _ProfileViewState extends State<ProfileView> {
                 margin: EdgeInsets.all(10),
                 child: Column(
                   children: <Widget>[
-                    BorderView('${snapshot.data!['phoneNumber'] ?? 'Phone Number'} ', Icons.phone),
+                    BorderView(widget.phoneNumber, Icons.phone),
                     BorderView(
-                      '${snapshot.data!['location'] ?? 'Location'}',
+                      widget.location,
                       Icons.location_on,
                     ),
-                    BorderView('${snapshot.data!['about'] ?? 'About'}', Icons.info),
+                    BorderView(widget.about, Icons.info),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
                         Flexible(
-                          child: BorderView('${snapshot.data!['bloodGroup']}',
+                          child: BorderView(widget.bloodGroup,
                               Icons.local_hospital),
                         ),
                         SizedBox(width: 10),
                         Flexible(
                           child: BorderView(
-                              '${snapshot.data!['gender']}', Icons.person),
+                              widget.gender, Icons.person),
                         ),
                       ],
                     ),

@@ -62,15 +62,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
           label: Text('Edit', style: TextStyle(color: Colors.white)),
         ),
         body: ConnectivityStatus(
+          // fetching user data from firebase with stream builder
+          // fetching data from firebase
           child: StreamBuilder<DocumentSnapshot>(
               stream: FirebaseFirestore.instance.collection('Profile').doc(user.uid).snapshots(),
               builder: (context, snapshot){
                 if(snapshot.data == null){
                   return Center(child: CircularProgressIndicator(color: kPrimaryColor, strokeCap: StrokeCap.round,),);
                 }
-
                 final data = snapshot.data!.data() as Map<String, dynamic>?;
-
                 return Column(
                   children: <Widget>[
                     // SizedBox(height: _height.height * 0.02),
@@ -173,6 +173,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ],
                       ),
                     ),
+
                     SizedBox(
                       height: _height.height * 0.03,
                     ),
@@ -256,6 +257,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   void takePhoto(ImageSource source) async {
+    //pick image from gallery or camera and then upload to firebase.
+
     var imageName = DateTime.now().millisecondsSinceEpoch.toString();
     final storageRef = FirebaseStorage.instance.ref('user-images/$imageName.jpg');
     CollectionReference addImage =
@@ -264,6 +267,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     final pickedFile = await _picker.pickImage(
       source: source,
     );
+
     setState(() {
       _imageFile = File(pickedFile!.path.toString());
       storageRef.putFile(File(_imageFile!.path.toString())).then((value) async {

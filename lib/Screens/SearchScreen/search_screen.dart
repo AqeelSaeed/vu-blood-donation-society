@@ -67,6 +67,7 @@ class _SearchScreenState extends State<SearchScreen> {
                   ),
                 ),
                 SizedBox(height: 10.0),
+                // searching donors
                 Expanded(
                   child: StreamBuilder<QuerySnapshot>(
                     stream: (_query == null || _query.toString().trim() == '')

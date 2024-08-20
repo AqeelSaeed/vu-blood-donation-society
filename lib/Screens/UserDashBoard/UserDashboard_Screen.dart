@@ -111,6 +111,7 @@ class _UserDashboardScreenState extends State<UserDashboardScreen> {
           ),
           icon: Icon(Icons.logout, color: Colors.white54),
           onPressed: () async {
+            // logout user
             FirebaseAuth.instance.signOut().then((_) {
               Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
                 builder: (context) {

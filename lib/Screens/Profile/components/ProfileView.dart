@@ -30,6 +30,7 @@ class _ProfileViewState extends State<ProfileView> {
   @override
   Widget build(BuildContext context) {
     return Expanded(
+      //
       child: StreamBuilder<DocumentSnapshot>(
         stream: FirebaseFirestore.instance
             .collection('Profile')

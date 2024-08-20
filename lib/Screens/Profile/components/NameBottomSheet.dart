@@ -73,6 +73,7 @@ class _NameBottomSheetState extends State<NameBottomSheet> {
   }
 
   Future<void> _updateName() async {
+    // updating user name
     final formState = _formKey.currentState;
 
     if (formState!.validate()) {

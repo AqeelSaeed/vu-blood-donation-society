@@ -42,6 +42,7 @@ class _ActiveUsersState extends State<ActiveUsers> {
                 height: _height.height * 0.3,
               ),
               Expanded(
+                //fetching active donors
                 child: StreamBuilder<QuerySnapshot>(
                   stream: FirebaseFirestore.instance
                       .collection('Profile')

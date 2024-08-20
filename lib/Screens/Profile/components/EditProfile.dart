@@ -195,6 +195,7 @@ class _EditProfileFormState extends State<EditProfileForm> {
   }
 
   Future<void> _updateProfile() async {
+    // changing user profile
     final formState = _formKey.currentState;
 
     if (formState!.validate()) {

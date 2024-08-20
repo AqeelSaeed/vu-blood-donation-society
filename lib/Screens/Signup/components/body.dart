@@ -224,9 +224,6 @@ class _BodyState extends State<Body> {
         password: _password);
     User user =
     FirebaseAuth.instance.currentUser!;
-    // user.updateProfile(
-    //   displayName: _name,
-    // );
     _addData.doc(user.uid).set({
       'name': _name,
       'phoneNumber': '',

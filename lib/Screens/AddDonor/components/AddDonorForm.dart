@@ -3,8 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:plasma_donor/Components/constants.dart';
-import 'package:plasma_donor/Screens/AddDonor/adddonor_screen.dart';
-
 
 class AddDonorForm extends StatefulWidget {
   @override
@@ -241,6 +239,7 @@ class _AddDonorFormState extends State<AddDonorForm> {
       formState.save();
       try {
         _addData.doc().set({
+          'uid': user!.uid.toString(),
           'name': _name,
           'phoneNumber': _mobileNo,
           'about': _about,

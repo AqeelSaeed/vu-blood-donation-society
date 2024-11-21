@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:kf_drawer/kf_drawer.dart';
 import 'package:plasma_donor/Components/MoveOn.dart';
 import 'package:plasma_donor/Components/constants.dart';
-import 'package:plasma_donor/Screens/AdminDashBoard/AdminDashboard_Screen.dart';
+import 'package:plasma_donor/Screens/AdminDashBoard/admin_dashboard_screen.dart';
 import 'package:plasma_donor/Screens/ChangeEmail/ChangeEmail.dart';
 import 'package:plasma_donor/Screens/ChangePassword/ChangePassword.dart';
 import 'package:plasma_donor/Screens/DeleteAccount/DeleteAccount.dart';
@@ -28,12 +28,18 @@ class _SettingScreenState extends State<SettingScreen> {
           backgroundColor: kPrimaryColor,
           leading: Builder(
             builder: (context) => IconButton(
-              icon: Icon(Icons.menu_outlined, color: kWhiteColor,),
+              icon: Icon(
+                Icons.menu_outlined,
+                color: kWhiteColor,
+              ),
               onPressed: widget.onMenuPressed,
             ),
           ),
           centerTitle: true,
-          title: Text('Account Setting', style: TextStyle(color: kWhiteColor),),
+          title: Text(
+            'Account Setting',
+            style: TextStyle(color: kWhiteColor),
+          ),
         ),
         body: Container(
           width: double.infinity,

@@ -4,13 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:plasma_donor/Components/BorderView.dart';
 import 'package:plasma_donor/Components/constants.dart';
 
+// ignore: must_be_immutable
 class ProfileView extends StatefulWidget {
   String phoneNumber;
   String about;
   String bloodGroup;
   String gender;
   String location;
-
 
   ProfileView({
     required this.phoneNumber,
@@ -64,13 +64,12 @@ class _ProfileViewState extends State<ProfileView> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
                         Flexible(
-                          child: BorderView(widget.bloodGroup,
-                              Icons.local_hospital),
+                          child: BorderView(
+                              widget.bloodGroup, Icons.local_hospital),
                         ),
                         SizedBox(width: 10),
                         Flexible(
-                          child: BorderView(
-                              widget.gender, Icons.person),
+                          child: BorderView(widget.gender, Icons.person),
                         ),
                       ],
                     ),

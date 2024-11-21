@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import 'Screens/Welcome/welcome_screen.dart';
 import 'main.dart';
@@ -24,12 +23,15 @@ class _SelectUserScreenState extends State<SelectUserScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Expanded(
-              flex: 2,
+                flex: 2,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Image.asset('assets/images/drop.png'),
-                    Text('Continue As', style: TextStyle(fontSize: 32, color: Colors.black),),
+                    Text(
+                      'Continue As',
+                      style: TextStyle(fontSize: 32, color: Colors.black),
+                    ),
                   ],
                 )),
             Expanded(
@@ -40,32 +42,37 @@ class _SelectUserScreenState extends State<SelectUserScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     OutlinedButton(
-                        onPressed: (){
-
-                          saveUserType('Donor');                          //
-                          Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
+                        onPressed: () {
+                          saveUserType('Donor'); //
+                          Navigator.pushAndRemoveUntil(context,
+                              MaterialPageRoute(
                             builder: (context) {
                               return WelcomeScreen();
                             },
                           ), (route) => false);
                         },
                         style: OutlinedButton.styleFrom(
-                          fixedSize: Size.square(100),
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))
-                        ),
+                            fixedSize: Size.square(100),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10))),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Image.asset('assets/images/users.png', height: 50,),
-                            Text('Donor', style: TextStyle(
-                              fontSize: 16
-                            ),),
+                            Image.asset(
+                              'assets/images/users.png',
+                              height: 50,
+                            ),
+                            Text(
+                              'Donor',
+                              style: TextStyle(fontSize: 16),
+                            ),
                           ],
                         )),
                     OutlinedButton(
-                        onPressed: (){
+                        onPressed: () {
                           saveUserType('Patient');
-                          Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
+                          Navigator.pushAndRemoveUntil(context,
+                              MaterialPageRoute(
                             builder: (context) {
                               return WelcomeScreen();
                             },
@@ -73,21 +80,26 @@ class _SelectUserScreenState extends State<SelectUserScreen> {
                         },
                         style: OutlinedButton.styleFrom(
                             fixedSize: Size.square(100),
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))
-                        ),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10))),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Image.asset('assets/images/patient_log.png', height: 50,),
-                            Text('Patient', style: TextStyle(
-                                fontSize: 16
-                            ),),
+                            Image.asset(
+                              'assets/images/patient_log.png',
+                              height: 50,
+                            ),
+                            Text(
+                              'Patient',
+                              style: TextStyle(fontSize: 16),
+                            ),
                           ],
                         )),
                     OutlinedButton(
-                        onPressed: (){
+                        onPressed: () {
                           saveUserType('');
-                          Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
+                          Navigator.pushAndRemoveUntil(context,
+                              MaterialPageRoute(
                             builder: (context) {
                               return WelcomeScreen();
                             },
@@ -95,15 +107,19 @@ class _SelectUserScreenState extends State<SelectUserScreen> {
                         },
                         style: OutlinedButton.styleFrom(
                             fixedSize: Size.square(100),
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))
-                        ),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10))),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Image.asset('assets/images/patient_log.png', height: 50,),
-                            Text('Admin', style: TextStyle(
-                                fontSize: 16
-                            ),),
+                            Image.asset(
+                              'assets/images/patient_log.png',
+                              height: 50,
+                            ),
+                            Text(
+                              'Admin',
+                              style: TextStyle(fontSize: 16),
+                            ),
                           ],
                         ))
                   ],
@@ -121,4 +137,3 @@ class _SelectUserScreenState extends State<SelectUserScreen> {
     log('selectedUserType: ${prefs.getString('type')} okay done.');
   }
 }
-

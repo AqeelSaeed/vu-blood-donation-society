@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:plasma_donor/Components/constants.dart';
 import 'package:plasma_donor/Screens/Slider/components/slideritems.dart';
-import 'package:plasma_donor/Screens/Welcome/welcome_screen.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:plasma_donor/continue_as.dart';
 
 class Body extends StatefulWidget {
@@ -56,17 +54,24 @@ class _BodyState extends State {
             ),
           ),
           SizedBox(height: _height.height * 0.2),
-          CarouselSlider.builder(
-            itemCount: 3,
-            options: CarouselOptions(
-              height: _height.height * 0.37,
-              viewportFraction: 0.9,
-              autoPlay: true,
-              enlargeCenterPage: true,
+          SizedBox(
+            height: 300,
+            child: PageView.builder(
+              itemCount: 3,
+              controller: PageController(
+                viewportFraction: 0.9,
+              ),
+              allowImplicitScrolling: true,
               scrollDirection: Axis.horizontal,
-            ),
-            itemBuilder: (context, itemIndex, item) => Container(
-              child: items[itemIndex],
+              itemBuilder: (context, itemIndex) {
+                return Container(
+                  height: _height.height * 0.37,
+                  child: items[itemIndex],
+                );
+              },
+              onPageChanged: (index) {
+                // Handle any page change logic here, if needed
+              },
             ),
           ),
           ElevatedButton(
@@ -75,14 +80,16 @@ class _BodyState extends State {
               padding: EdgeInsets.symmetric(horizontal: 60, vertical: 16),
               textStyle: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
-            child: Text('Get Started', style: TextStyle(
-              color: kWhiteColor
-            ),),
+            child: Text(
+              'Get Started',
+              style: TextStyle(color: kWhiteColor),
+            ),
             onPressed: () {
-
-              Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => SelectUserScreen()), (route) => false);
+              Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => SelectUserScreen()),
+                  (route) => false);
               //
-
             },
           ),
         ],

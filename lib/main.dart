@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:plasma_donor/Screens/AdminDashBoard/AdminDashboard_Screen.dart';
+import 'package:plasma_donor/Screens/AdminDashBoard/admin_dashboard_screen.dart';
 import 'package:plasma_donor/Screens/UserDashBoard/UserDashboard_Screen.dart';
 import 'package:plasma_donor/providers/network_provider.dart';
 import 'package:provider/provider.dart';
@@ -48,9 +48,7 @@ class _MyAppState extends State<MyApp> {
       ],
     );
     return MultiProvider(
-        providers: [
-          ChangeNotifierProvider(create: (context)=> DataProvider())
-        ],
+      providers: [ChangeNotifierProvider(create: (context) => DataProvider())],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Plasma Donor',

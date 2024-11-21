@@ -41,7 +41,7 @@ class FirstItem extends StatelessWidget {
           textAlign: TextAlign.center,
           style: TextStyle(
             fontFamily: 'Assistant',
-            fontSize: _height.height * 0.2,
+            fontSize: _height.height * 0.02,
             color: kPrimaryColor,
             fontWeight: FontWeight.bold,
           ),

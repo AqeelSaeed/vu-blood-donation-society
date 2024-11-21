@@ -4,9 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:plasma_donor/Components/ConnectivityStatus.dart';
 import 'package:plasma_donor/Components/constants.dart';
-import 'package:plasma_donor/Screens/Setting/setting_screen.dart';
 import 'package:plasma_donor/Screens/Welcome/welcome_screen.dart';
-
 
 class DeleteAccount extends StatefulWidget {
   @override
@@ -20,17 +18,24 @@ class _DeleteAccountState extends State<DeleteAccount> {
   @override
   Widget build(BuildContext context) {
     Size _height = MediaQuery.of(context).size;
-    return WillPopScope(
+    return PopScope(
+      canPop: true,
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
-          title: Text('Delete Account', style: TextStyle(color: kWhiteColor),),
+          title: Text(
+            'Delete Account',
+            style: TextStyle(color: kWhiteColor),
+          ),
           centerTitle: true,
           backgroundColor: kPrimaryColor,
           leading: Builder(
             builder: (context) => IconButton(
-              icon: Icon(Icons.arrow_back_rounded, color: kWhiteColor,),
-              onPressed: (){
+              icon: Icon(
+                Icons.arrow_back_rounded,
+                color: kWhiteColor,
+              ),
+              onPressed: () {
                 Navigator.pop(context);
               },
             ),
@@ -120,7 +125,10 @@ class _DeleteAccountState extends State<DeleteAccount> {
                             ElevatedButton(
                               style: ElevatedButton.styleFrom(
                                   backgroundColor: kPrimaryColor),
-                              child: Text('Delete My Account', style: TextStyle(color: kWhiteColor),),
+                              child: Text(
+                                'Delete My Account',
+                                style: TextStyle(color: kWhiteColor),
+                              ),
                               onPressed: _updatePassword,
                             ),
                           ],
@@ -134,11 +142,10 @@ class _DeleteAccountState extends State<DeleteAccount> {
           ),
         ),
       ),
-      onWillPop: onBackPressed,
     );
   }
 
-  Future<bool> onBackPressed() async{
+  Future<bool> onBackPressed() async {
     return Future.value(true);
   }
 

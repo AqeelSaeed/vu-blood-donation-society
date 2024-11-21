@@ -5,8 +5,9 @@ import 'package:plasma_donor/Components/ConnectivityStatus.dart';
 import 'package:plasma_donor/Components/Next.dart';
 import 'package:plasma_donor/Components/ProfileInfo.dart';
 import 'package:plasma_donor/Components/constants.dart';
-import 'package:plasma_donor/Screens/AdminDashBoard/AdminDashboard_Screen.dart';
 import 'package:plasma_donor/Screens/UserDashBoard/UserDashboard_Screen.dart';
+
+import '../AdminDashBoard/admin_dashboard_screen.dart';
 
 class SearchScreen extends StatefulWidget {
   @override
@@ -23,12 +24,18 @@ class _SearchScreenState extends State<SearchScreen> {
     return WillPopScope(
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Search Donor', style: TextStyle(color: kWhiteColor),),
+          title: Text(
+            'Search Donor',
+            style: TextStyle(color: kWhiteColor),
+          ),
           centerTitle: true,
           backgroundColor: kPrimaryColor,
           leading: Builder(
             builder: (context) => IconButton(
-              icon: Icon(Icons.arrow_back_rounded, color: kWhiteColor,),
+              icon: Icon(
+                Icons.arrow_back_rounded,
+                color: kWhiteColor,
+              ),
               onPressed: onBackPressed,
             ),
           ),
@@ -124,7 +131,7 @@ class _SearchScreenState extends State<SearchScreen> {
         },
       ), (route) => false);
     }
-    return Future.value(null);
+    return Future.value(true);
   }
 }
 
@@ -140,12 +147,12 @@ class List extends StatelessWidget {
         Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
         return Next(
           Icons.person,
-              () {
+          () {
             showDialog(
               context: context,
               builder: (BuildContext context) {
                 return ProfileReview(
-                      () {
+                  () {
                     Navigator.pop(context);
                   },
                   "${data['location'] ?? ''}",
@@ -159,7 +166,7 @@ class List extends StatelessWidget {
             );
           },
           '${data['name'] ?? ''}',
-              () {},
+          () {},
         );
       }).toList(),
     );

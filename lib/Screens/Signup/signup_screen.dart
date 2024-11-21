@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:plasma_donor/Screens/Signup//components/body.dart';
-import 'package:plasma_donor/Screens/Welcome/welcome_screen.dart';
+import 'package:plasma_donor/Screens/Signup/components/signup_body.dart';
 
 class SignUpScreen extends StatefulWidget {
   @override
@@ -14,21 +13,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
       onTap: () {
         FocusScope.of(context).unfocus();
       },
-      child: WillPopScope(
-        child: Scaffold(
-          body: Body(),
-        ),
-        onWillPop: onBackPressed,
+      child: Scaffold(
+        body: SignupBody(),
       ),
     );
-  }
-
-  Future<bool> onBackPressed() async{
-    await Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
-      builder: (context) {
-        return WelcomeScreen();
-      },
-    ), (route) => false);
-    return Future.value(true);
   }
 }

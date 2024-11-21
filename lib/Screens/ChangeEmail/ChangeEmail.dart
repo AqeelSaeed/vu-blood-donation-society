@@ -4,9 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:plasma_donor/Components/ConnectivityStatus.dart';
 import 'package:plasma_donor/Components/constants.dart';
-import 'package:plasma_donor/Screens/Setting/setting_screen.dart';
 import 'package:plasma_donor/Screens/Welcome/welcome_screen.dart';
-
 
 class ChangeEmail extends StatefulWidget {
   @override
@@ -25,13 +23,19 @@ class _ChangeEmailState extends State<ChangeEmail> {
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
-          title: Text('Change Email', style: TextStyle(color: kWhiteColor),),
+          title: Text(
+            'Change Email',
+            style: TextStyle(color: kWhiteColor),
+          ),
           centerTitle: true,
           backgroundColor: kPrimaryColor,
           leading: Builder(
             builder: (context) => IconButton(
-              icon: Icon(Icons.arrow_back_rounded, color: kWhiteColor,),
-              onPressed: (){
+              icon: Icon(
+                Icons.arrow_back_rounded,
+                color: kWhiteColor,
+              ),
+              onPressed: () {
                 Navigator.pop(context);
               },
             ),
@@ -119,7 +123,10 @@ class _ChangeEmailState extends State<ChangeEmail> {
                             ElevatedButton(
                               style: ElevatedButton.styleFrom(
                                   backgroundColor: kPrimaryColor),
-                              child: Text('Change Email', style: TextStyle(color: kWhiteColor),),
+                              child: Text(
+                                'Change Email',
+                                style: TextStyle(color: kWhiteColor),
+                              ),
                               onPressed: _updateEmail,
                             ),
                           ],
@@ -137,7 +144,7 @@ class _ChangeEmailState extends State<ChangeEmail> {
     );
   }
 
-  Future<bool> onBackPressed() async{
+  Future<bool> onBackPressed() async {
     return Future.value(true);
   }
 

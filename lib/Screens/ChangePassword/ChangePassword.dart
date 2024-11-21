@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:plasma_donor/Components/ConnectivityStatus.dart';
 import 'package:plasma_donor/Components/constants.dart';
-import 'package:plasma_donor/Screens/Setting/setting_screen.dart';
 
 class ChangePasswordScreen extends StatefulWidget {
   @override
@@ -35,17 +34,24 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   @override
   Widget build(BuildContext context) {
     Size _height = MediaQuery.of(context).size;
-    return WillPopScope(
+    return PopScope(
+      canPop: true,
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
-          title: Text('Change Password', style: TextStyle(color: kWhiteColor),),
+          title: Text(
+            'Change Password',
+            style: TextStyle(color: kWhiteColor),
+          ),
           centerTitle: true,
           backgroundColor: kPrimaryColor,
           leading: Builder(
             builder: (context) => IconButton(
-              icon: Icon(Icons.arrow_back_rounded, color: kWhiteColor,),
-              onPressed: (){
+              icon: Icon(
+                Icons.arrow_back_rounded,
+                color: kWhiteColor,
+              ),
+              onPressed: () {
                 Navigator.pop(context);
               },
             ),
@@ -136,7 +142,8 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                             initialValue: _confirmPassword,
                             keyboardType: TextInputType.visiblePassword,
                             cursorColor: kPrimaryColor,
-                            onSaved: (input) => _confirmPassword = input.toString(),
+                            onSaved: (input) =>
+                                _confirmPassword = input.toString(),
                             decoration: InputDecoration(
                               icon: Icon(
                                 Icons.lock_outline,
@@ -155,7 +162,10 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
                                 backgroundColor: kPrimaryColor),
-                            child: Text('Change Password', style: TextStyle(color: kWhiteColor),),
+                            child: Text(
+                              'Change Password',
+                              style: TextStyle(color: kWhiteColor),
+                            ),
                             onPressed: _updatePassword,
                           ),
                         ],
@@ -168,11 +178,10 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
           ),
         ),
       ),
-      onWillPop: onBackPressed,
     );
   }
 
-  Future<bool> onBackPressed() async{
+  Future<bool> onBackPressed() async {
     return Future.value(true);
   }
 

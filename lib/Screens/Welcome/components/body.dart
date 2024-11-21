@@ -1,21 +1,19 @@
 import 'dart:developer';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_progress_hud/flutter_progress_hud.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:plasma_donor/Components/ConnectivityStatus.dart';
 import 'package:plasma_donor/Components/constants.dart';
-import 'package:plasma_donor/Components/or_divider.dart';
-import 'package:plasma_donor/Components/social_icon.dart';
-import 'package:plasma_donor/Screens/AdminDashBoard/AdminDashboard_Screen.dart';
+import 'package:plasma_donor/Screens/AdminDashBoard/admin_dashboard_screen.dart';
 import 'package:plasma_donor/Screens/Forgotpassword/forgotpassword_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:plasma_donor/Screens/UserDashBoard/UserDashboard_Screen.dart';
 import 'package:plasma_donor/Screens/Welcome/components/Create_an_Account.dart';
 
 import '../../../main.dart';
-
 
 class Body extends StatefulWidget {
   const Body({Key? key}) : super(key: key);
@@ -38,7 +36,6 @@ class _BodyState extends State<Body> {
       },
     );
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -122,12 +119,14 @@ class _BodyState extends State<Body> {
                               SizedBox(height: _height.height * 0.01),
                               TextFormField(
                                 validator: (input) {
-                                  if (input.toString().isEmpty) return 'Enter Password';
+                                  if (input.toString().isEmpty)
+                                    return 'Enter Password';
                                   return null;
                                 },
                                 autovalidateMode:
                                     AutovalidateMode.onUserInteraction,
-                                onSaved: (input) => _password = input.toString(),
+                                onSaved: (input) =>
+                                    _password = input.toString(),
                                 cursorColor: kPrimaryColor,
                                 obscureText: _isHidden,
                                 decoration: kTextFormFieldDecoration.copyWith(
@@ -175,9 +174,10 @@ class _BodyState extends State<Body> {
                               ElevatedButton(
                                 style: ElevatedButton.styleFrom(
                                     backgroundColor: kPrimaryColor),
-                                child: Text('Login', style: TextStyle(
-                                  color: kWhiteColor
-                                ),),
+                                child: Text(
+                                  'Login',
+                                  style: TextStyle(color: kWhiteColor),
+                                ),
                                 onPressed: () async {
                                   final progress = ProgressHUD.of(context);
                                   final formState = _formKey.currentState;
@@ -202,24 +202,6 @@ class _BodyState extends State<Body> {
                         ),
                       ),
                       CreateAnAccount(),
-                      // OrDivider(),
-                      // Row(
-                      //   mainAxisAlignment: MainAxisAlignment.center,
-                      //   children: <Widget>[
-                      //     SocialIcon(
-                      //       iconSrc: "assets/icons/facebook.svg",
-                      //       press: () {},
-                      //     ),
-                      //     SocialIcon(
-                      //       iconSrc: "assets/icons/twitter.svg",
-                      //       press: () {},
-                      //     ),
-                      //     SocialIcon(
-                      //       iconSrc: "assets/icons/google-plus.svg",
-                      //       press: () {},
-                      //     ),
-                      //   ],
-                      // ),
                       SizedBox(height: _height.height * 0.02),
                     ],
                   ),
@@ -232,33 +214,69 @@ class _BodyState extends State<Body> {
     );
   }
 
-  loginUser() async{
-    final user = await FirebaseAuth.instance
-        .signInWithEmailAndPassword(
-        email: _email,
-        password: _password);
-    if (user != null) {
-      if (_email ==
-          "aqeelsaeed15@gmail.com") {
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(
-            builder: (context) =>
-                AdminDashboardScreen(),
-          ),
-        );
-      } else {
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(
-            builder: (context) =>
-                UserDashboardScreen(),
-          ),
-        );
+  loginUser() async {
+    try {
+      // Authenticate user with Firebase
+      final userCredential = await FirebaseAuth.instance
+          .signInWithEmailAndPassword(email: _email, password: _password);
+
+      final user = userCredential.user;
+
+      if (user != null) {
+        // Fetch user data from Firestore
+
+        await FirebaseFirestore.instance
+            .collection('Profile')
+            .doc(user.uid)
+            .update({'isActive': true});
+        final userDoc = await FirebaseFirestore.instance
+            .collection('Profile')
+            .doc(user.uid)
+            .get();
+
+        if (userDoc.exists) {
+          final isVerified = userDoc.data()?['isVerified'] ?? false;
+
+          // Check for admin email
+          if (_email == "aqeelsaeed15@gmail.com") {
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(
+                builder: (context) => AdminDashboardScreen(),
+              ),
+            );
+          } else if (isVerified) {
+            {
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(
+                  builder: (context) => UserDashboardScreen(),
+                ),
+              );
+            }
+            Fluttertoast.showToast(
+              msg: "Login successfully",
+              gravity: ToastGravity.BOTTOM,
+            );
+          } else {
+            // User is not verified
+            Fluttertoast.showToast(
+              msg: "Your account is not verified by the admin.",
+              gravity: ToastGravity.BOTTOM,
+            );
+          }
+        } else {
+          // User document doesn't exist
+          Fluttertoast.showToast(
+            msg: "Account not found. Please contact support.",
+            gravity: ToastGravity.BOTTOM,
+          );
+        }
       }
+    } on FirebaseAuthException catch (error) {
+      // Handle login error
       Fluttertoast.showToast(
-        msg: "Login successfully",
+        msg: "${error.message}",
         gravity: ToastGravity.BOTTOM,
       );
-
     }
   }
 }

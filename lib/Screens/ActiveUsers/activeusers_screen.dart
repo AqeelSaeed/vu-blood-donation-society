@@ -3,10 +3,11 @@ import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:plasma_donor/Components/ConnectivityStatus.dart';
-import 'package:plasma_donor/Components/Next.dart';
 import 'package:plasma_donor/Components/ProfileInfo.dart';
 import 'package:plasma_donor/Components/constants.dart';
-import 'package:plasma_donor/Screens/AdminDashBoard/AdminDashboard_Screen.dart';
+import 'package:plasma_donor/Screens/AdminDashBoard/admin_dashboard_screen.dart';
+
+import '../../Components/Next.dart';
 
 class ActiveUsers extends StatefulWidget {
   @override
@@ -16,81 +17,92 @@ class ActiveUsers extends StatefulWidget {
 class _ActiveUsersState extends State<ActiveUsers> {
   @override
   Widget build(BuildContext context) {
-    Size _height = MediaQuery.of(context).size;
     return PopScope(
       child: Scaffold(
         appBar: AppBar(
           leading: Builder(
             builder: (context) => IconButton(
-              icon: Icon(Icons.arrow_back_rounded, color: kWhiteColor,),
-              onPressed: (){
+              icon: Icon(
+                Icons.arrow_back_rounded,
+                color: kWhiteColor,
+              ),
+              onPressed: () {
                 onBackPressed();
               },
             ),
           ),
-          title: Text('Active Users', style: TextStyle(color: kWhiteColor),),
+          title: Text(
+            'Active Users',
+            style: TextStyle(color: kWhiteColor),
+          ),
           centerTitle: true,
           backgroundColor: kPrimaryColor,
         ),
         body: ConnectivityStatus(
-          child:
-          Column(
-            children: <Widget>[
-              SizedBox(height: _height.height * 0.03),
-              Image.asset(
-                "assets/images/users.png",
-                height: _height.height * 0.3,
-              ),
+          child: Column(
+            children: [
               Expanded(
-                //fetching active donors
+                // Fetching active and verified donors
                 child: StreamBuilder<QuerySnapshot>(
                   stream: FirebaseFirestore.instance
                       .collection('Profile')
                       .where('isActive', isEqualTo: true)
+                      .where('isVerified', isEqualTo: true)
                       .snapshots(),
                   builder: (context, snapshot) {
                     if (snapshot.hasError) {
-                      return Text('Something went wrong ${snapshot.error}');
+                      return Center(
+                          child:
+                              Text('Something went wrong: ${snapshot.error}'));
                     }
                     switch (snapshot.connectionState) {
                       case ConnectionState.waiting:
                         return Center(
-                          child: Center(
-                            child: CircularProgressIndicator(
-                              valueColor: AlwaysStoppedAnimation<Color>(
-                                kPrimaryColor,
-                              ),
-                            ),
+                          child: CircularProgressIndicator(
+                            valueColor:
+                                AlwaysStoppedAnimation<Color>(kPrimaryColor),
                           ),
                         );
                       case ConnectionState.none:
-                        return Text('There is nothing');
+                        return Center(child: Text('There is nothing'));
                       default:
-                        return ListView(
-                            children: snapshot.data!.docs
-                                .map((DocumentSnapshot doc) => Next(
-                                      Icons.person,
+                        // Check if the data list is empty
+                        if (snapshot.data?.docs.isEmpty ?? true) {
+                          return Center(
+                              child:
+                                  Text('No active and verified users found'));
+                        }
+
+                        // Use ListView.builder for displaying the data
+                        return ListView.builder(
+                          itemCount: snapshot.data?.docs.length ?? 0,
+                          itemBuilder: (context, index) {
+                            var doc = snapshot.data!.docs[index];
+                            return Next(
+                              Icons.person,
+                              () {
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return ProfileReview(
                                       () {
-                                        showDialog(
-                                            context: context,
-                                            builder: (BuildContext context) {
-                                              return ProfileReview(
-                                                () {
-                                                  Navigator.pop(context);
-                                                },
-                                                "${doc['location']}",
-                                                "${doc['about']}",
-                                                "${doc['name']}",
-                                                "${doc['phoneNumber']}",
-                                                "${doc['bloodGroup']}",
-                                                'Close',
-                                              );
-                                            });
+                                        Navigator.pop(context);
                                       },
-                                      '${doc['name']}',
-                                      () {},
-                                    ))
-                                .toList());
+                                      "${doc['location']}",
+                                      "${doc['about']}",
+                                      "${doc['name']}",
+                                      "${doc['phoneNumber']}",
+                                      "${doc['bloodGroup']}",
+                                      'Close',
+                                    );
+                                  },
+                                );
+                              },
+                              '${doc['name']}',
+                              () {},
+                            );
+                          },
+                        );
                     }
                   },
                 ),
@@ -100,23 +112,20 @@ class _ActiveUsersState extends State<ActiveUsers> {
         ),
       ),
       canPop: false,
-      onPopInvoked: (value){
+      onPopInvoked: (value) {
         log('onPopInvoked: $value');
         onBackPressed();
       },
     );
   }
 
-
-
-   onBackPressed() {
+  onBackPressed() {
     Navigator.pushAndRemoveUntil(
       context,
       MaterialPageRoute(
         builder: (context) => AdminDashboardScreen(),
       ),
-          (route) => false,
+      (route) => false,
     );
   }
-
 }

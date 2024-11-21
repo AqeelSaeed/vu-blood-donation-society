@@ -3,8 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:plasma_donor/Components/constants.dart';
-import 'package:plasma_donor/Screens/Profile/profile_screen.dart';
-
 
 class EditProfileForm extends StatefulWidget {
   @override
@@ -14,6 +12,7 @@ class EditProfileForm extends StatefulWidget {
 class _EditProfileFormState extends State<EditProfileForm> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   User user = FirebaseAuth.instance.currentUser!;
+  String? _name;
   String? _bloodGroup;
   String? _address;
   String? _gender;
@@ -23,6 +22,8 @@ class _EditProfileFormState extends State<EditProfileForm> {
   List _genderItem = ["Male", "Female", "other"];
   CollectionReference _addData =
       FirebaseFirestore.instance.collection('Profile');
+  CollectionReference donorCollection =
+      FirebaseFirestore.instance.collection('Donors');
 
   @override
   Widget build(BuildContext context) {
@@ -77,6 +78,23 @@ class _EditProfileFormState extends State<EditProfileForm> {
               child: Column(
                 children: <Widget>[
                   SizedBox(height: _height.height * 0.05),
+                  TextFormField(
+                    autofocus: true,
+                    keyboardType: TextInputType.name,
+                    cursorColor: kPrimaryColor,
+                    onSaved: (input) => _name = input.toString(),
+                    decoration: InputDecoration(
+                      icon: Icon(
+                        Icons.person,
+                        color: kPrimaryColor,
+                      ),
+                      labelText: 'Name',
+                      labelStyle: TextStyle(color: kPrimaryColor),
+                      focusedBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: kPrimaryColor),
+                      ),
+                    ),
+                  ),
                   TextFormField(
                     keyboardType: TextInputType.phone,
                     cursorColor: kPrimaryColor,
@@ -201,20 +219,23 @@ class _EditProfileFormState extends State<EditProfileForm> {
     if (formState!.validate()) {
       formState.save();
       try {
-        List<String> splitList = _address.toString().split(" ");
-        List<String> indexList = [];
-        for (int i = 0; i < splitList.length; i++) {
-          for (int j = 0; j < splitList[i].length + i; j++) {
-            indexList.add(splitList[i].substring(0, j).toLowerCase());
-          }
-        }
         _addData.doc(user.uid).update({
+          'uid': user.uid.toString(),
+          'name': _name,
           'phoneNumber': _mobileNo,
           'about': _about,
           'bloodGroup': _bloodGroup,
           'gender': _gender,
           'location': _address,
-          'searchIndex': indexList,
+        });
+        donorCollection.doc().set({
+          'uid': user.uid.toString(),
+          'name': _name,
+          'phoneNumber': _mobileNo,
+          'about': _about,
+          'bloodGroup': _bloodGroup,
+          'gender': _gender,
+          'location': _address,
         });
         Fluttertoast.showToast(
           msg: "Profile Updated",

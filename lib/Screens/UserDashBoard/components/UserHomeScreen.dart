@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:kf_drawer/kf_drawer.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:plasma_donor/Components/ConnectivityStatus.dart';
@@ -10,8 +11,8 @@ import 'package:plasma_donor/Components/DashboardCard.dart';
 import 'package:plasma_donor/Components/constants.dart';
 import 'package:plasma_donor/Screens/Donors/donor_screen.dart';
 import 'package:plasma_donor/Screens/Profile/components/EditProfile.dart';
-import 'package:plasma_donor/Screens/Profile/profile_screen.dart';
 import 'package:plasma_donor/Screens/Requests/requests_screen.dart';
+import 'package:plasma_donor/patient/add_patient_form.dart';
 
 // ignore: must_be_immutable
 class UserHomeScreen extends KFDrawerContent {
@@ -23,6 +24,8 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
   User user = FirebaseAuth.instance.currentUser!;
   CollectionReference _addData =
       FirebaseFirestore.instance.collection('Profile');
+  bool isLoading = false;
+  String userType = '';
 
   @override
   void initState() {
@@ -51,73 +54,159 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
   Widget build(BuildContext context) {
     Size _height = MediaQuery.of(context).size;
     log('userName: ${user.displayName}');
-    return WillPopScope(
-      child: Scaffold(
-        appBar: AppBar(
-          leading: Builder(
-            builder: (context) => IconButton(
-              icon: Icon(
-                Icons.menu_rounded,
-                color: kPrimaryColor,
-              ),
-              onPressed: widget.onMenuPressed,
+    return Scaffold(
+      appBar: AppBar(
+        leading: Builder(
+          builder: (context) => IconButton(
+            icon: Icon(
+              Icons.menu_rounded,
+              color: kPrimaryColor,
             ),
-          ),
-          backgroundColor: Colors.white,
-          title: Image.asset(
-            'assets/images/logo.png',
-            height: 35.0,
-          ),
-          centerTitle: true,
-        ),
-        body: ConnectivityStatus(
-          child: Column(
-            children: <Widget>[
-              Image.asset(
-                "assets/images/new4.png",
-                height: _height.height * 0.3,
-              ),
-              Text(
-                "MAKE SOMEONE HAPPY TODAY",
-                style: TextStyle(
-                  fontFamily: 'Libre_Baskerville',
-                  fontSize: 30.0,
-                  color: kPrimaryColor,
-                ),
-                textAlign: TextAlign.center,
-              ),
-              SizedBox(height: _height.height * 0.05),
-              Expanded(
-                child: HorizontalCard(
-                  Icons.local_hospital,
-                  () {
-                    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
-                      builder: (context) {
-                        return DonorsScreen();
-                      },
-                    ), (route) => false);
-                  },
-                  'Donors',
-                ),
-              ),
-              Expanded(
-                child: HorizontalCard(
-                  Icons.notifications,
-                  () {
-                    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
-                      builder: (context) {
-                        return RequestsScreen();
-                      },
-                    ), (route) => false);
-                  },
-                  'Requests',
-                ),
-              ),
-            ],
+            onPressed: widget.onMenuPressed,
           ),
         ),
+        backgroundColor: Colors.white,
+        title: Image.asset(
+          'assets/images/logo.png',
+          height: 35.0,
+        ),
+        centerTitle: true,
       ),
-      onWillPop: onBackPressed,
+      body: ConnectivityStatus(
+        child: StreamBuilder<DocumentSnapshot>(
+            stream: FirebaseFirestore.instance
+                .collection('Profile') // Replace with your collection name
+                .doc(user.uid) // Fetch the document for the current user
+                .snapshots(),
+            builder: (BuildContext context,
+                AsyncSnapshot<DocumentSnapshot> snapshot) {
+              // Error handling
+              if (snapshot.hasError) {
+                return Center(
+                  child: Text('Error: ${snapshot.error}'),
+                );
+              }
+
+              // Show loading while waiting for data
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Center(child: CircularProgressIndicator());
+              }
+
+              // Fetch the data from the snapshot
+              var data = snapshot.data;
+
+              // Check if the user's account is verified
+              if (data != null && data.exists) {
+                userType =
+                    data['userType']; // Get the userType (Donor or Patient)
+                if ((data.data() as Map<String, dynamic>)
+                        .containsKey('isRejected') &&
+                    data['isRejected'] == true) {
+                  return Center(
+                    child: Column(
+                      children: [
+                        Text(
+                          "Your account has been rejected.",
+                          style: TextStyle(
+                            fontSize: 18.0,
+                            color: Colors.red,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                        OutlinedButton(
+                            onPressed: () {},
+                            style: OutlinedButton.styleFrom(
+                                padding: EdgeInsets.zero,
+                                backgroundColor: kPrimaryColor,
+                                minimumSize: const Size(80, 40),
+                                maximumSize: const Size(80, 40),
+                                shape: StadiumBorder()),
+                            child: isLoading
+                                ? SizedBox(
+                                    height: 20,
+                                    width: 20,
+                                    child: CircularProgressIndicator(
+                                      color: kWhiteColor,
+                                      strokeCap: StrokeCap.round,
+                                      strokeWidth: 4,
+                                    ),
+                                  )
+                                : Text('Reject',
+                                    style: TextStyle(
+                                        fontSize: 15, color: kWhiteColor)))
+                      ],
+                    ),
+                  );
+                } else if (data['isVerified'] == false) {
+                  return Center(
+                    child: Text(
+                      "Your account activation request has been sent to admin for approval.",
+                      style: TextStyle(
+                        fontSize: 18.0,
+                        color: Colors.orange,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  );
+                }
+              }
+              return Column(
+                children: <Widget>[
+                  Image.asset(
+                    "assets/images/new4.png",
+                    height: _height.height * 0.3,
+                  ),
+                  Text(
+                    "MAKE SOMEONE HAPPY TODAY",
+                    style: TextStyle(
+                      fontFamily: 'Libre_Baskerville',
+                      fontSize: 30.0,
+                      color: kPrimaryColor,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  SizedBox(height: _height.height * 0.05),
+                  Expanded(
+                    child: HorizontalCard(
+                      Icons.local_hospital,
+                      () {
+                        Navigator.push(context, MaterialPageRoute(
+                          builder: (context) {
+                            return DonorsScreen();
+                          },
+                        ));
+                      },
+                      'Donors',
+                    ),
+                  ),
+                  Expanded(
+                    child: HorizontalCard(
+                      Icons.notifications,
+                      () {
+                        if (userType == "Patient") {
+                          Navigator.push(context, MaterialPageRoute(
+                            builder: (context) {
+                              return AddPatientForm(
+                                  requestType: 'request-blood');
+                            },
+                          ));
+                        } else {
+                          Navigator.push(context, MaterialPageRoute(
+                            builder: (context) {
+                              return RequestsScreen();
+                            },
+                          ));
+                        }
+                      },
+                      userType == "Donor" ? 'Requests' : 'Generate Request',
+                    ),
+                  ),
+                ],
+              );
+            }),
+      ),
     );
   }
 
@@ -162,31 +251,38 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
     }
   }
 
-  infoDialog(){
-    showDialog(context: context, builder: (context){
-      return Dialog(
-        child: Container(
-          height: 100,
-          decoration: BoxDecoration(
-            color: kWhiteColor,
-            borderRadius: BorderRadius.circular(10),
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Text('Please complete your profile first.'),
-              OutlinedButton(
-                  onPressed: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => EditProfileForm()));
-                  },
-                  style: OutlinedButton.styleFrom(
-                    backgroundColor: kPrimaryColor
-                  ),
-                  child: Text('Ok', style: TextStyle(color: kWhiteColor),))
-            ],
-          ),
-        ),
-      );
-    });
+  infoDialog() {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return Dialog(
+            child: Container(
+              height: 100,
+              decoration: BoxDecoration(
+                color: kWhiteColor,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Text('Please complete your profile first.'),
+                  OutlinedButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => EditProfileForm()));
+                      },
+                      style: OutlinedButton.styleFrom(
+                          backgroundColor: kPrimaryColor),
+                      child: Text(
+                        'Ok',
+                        style: TextStyle(color: kWhiteColor),
+                      ))
+                ],
+              ),
+            ),
+          );
+        });
   }
 }

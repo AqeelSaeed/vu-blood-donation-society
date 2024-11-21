@@ -9,7 +9,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:kf_drawer/kf_drawer.dart';
 import 'package:plasma_donor/Components/ConnectivityStatus.dart';
 import 'package:plasma_donor/Components/constants.dart';
-import 'package:plasma_donor/Screens/AdminDashBoard/AdminDashboard_Screen.dart';
+import 'package:plasma_donor/Screens/AdminDashBoard/admin_dashboard_screen.dart';
 import 'package:plasma_donor/Screens/Profile/components/EditProfile.dart';
 import 'dart:io';
 import 'package:plasma_donor/Screens/Profile/components/NameBottomSheet.dart';
@@ -40,11 +40,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
         appBar: AppBar(
           leading: Builder(
             builder: (context) => IconButton(
-              icon: Icon(Icons.menu, color: kWhiteColor,),
+              icon: Icon(
+                Icons.menu,
+                color: kWhiteColor,
+              ),
               onPressed: widget.onMenuPressed,
             ),
           ),
-          title: Text('Profile', style: TextStyle(color: kWhiteColor),),
+          title: Text(
+            'Profile',
+            style: TextStyle(color: kWhiteColor),
+          ),
           centerTitle: true,
           backgroundColor: kPrimaryColor,
         ),
@@ -65,10 +71,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
           // fetching user data from firebase with stream builder
           // fetching data from firebase
           child: StreamBuilder<DocumentSnapshot>(
-              stream: FirebaseFirestore.instance.collection('Profile').doc(user.uid).snapshots(),
-              builder: (context, snapshot){
-                if(snapshot.data == null){
-                  return Center(child: CircularProgressIndicator(color: kPrimaryColor, strokeCap: StrokeCap.round,),);
+              stream: FirebaseFirestore.instance
+                  .collection('Profile')
+                  .doc(user.uid)
+                  .snapshots(),
+              builder: (context, snapshot) {
+                if (snapshot.data == null) {
+                  return Center(
+                    child: CircularProgressIndicator(
+                      color: kPrimaryColor,
+                      strokeCap: StrokeCap.round,
+                    ),
+                  );
                 }
                 final data = snapshot.data!.data() as Map<String, dynamic>?;
                 return Column(
@@ -87,34 +101,45 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: <Widget>[
-                                    _imageFile == null ? Container(
-                                      width: 140.0,
-                                      height: 140.0,
-                                      decoration: data!['user-image'] != null ? BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          image: DecorationImage(image: NetworkImage(snapshot.data!['user-image']), fit: BoxFit.cover,)
-                                      ) : BoxDecoration(
-                                          shape: BoxShape.circle,
-                                        image: DecorationImage(
-                                          image: AssetImage('assets/images/_blankProfile.jpg'),
-                                          fit: BoxFit.cover
-                                        )
-                                      ),
-                                    ) :
-                                    Container(
-                                      width: 140.0,
-                                      height: 140.0,
-                                      decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        image: DecorationImage(image: FileImage(
-                                          File(_imageFile!.path.toString()),
-                                        ), fit: BoxFit.cover),
-                                      ),
-                                    ),
+                                    _imageFile == null
+                                        ? Container(
+                                            width: 140.0,
+                                            height: 140.0,
+                                            decoration: data!['user-image'] !=
+                                                    null
+                                                ? BoxDecoration(
+                                                    shape: BoxShape.circle,
+                                                    image: DecorationImage(
+                                                      image: NetworkImage(
+                                                          snapshot.data![
+                                                              'user-image']),
+                                                      fit: BoxFit.cover,
+                                                    ))
+                                                : BoxDecoration(
+                                                    shape: BoxShape.circle,
+                                                    image: DecorationImage(
+                                                        image: AssetImage(
+                                                            'assets/images/_blankProfile.jpg'),
+                                                        fit: BoxFit.cover)),
+                                          )
+                                        : Container(
+                                            width: 140.0,
+                                            height: 140.0,
+                                            decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              image: DecorationImage(
+                                                  image: FileImage(
+                                                    File(_imageFile!.path
+                                                        .toString()),
+                                                  ),
+                                                  fit: BoxFit.cover),
+                                            ),
+                                          ),
                                   ],
                                 ),
                                 Padding(
-                                  padding: EdgeInsets.only(top: 90.0, right: 100.0),
+                                  padding:
+                                      EdgeInsets.only(top: 90.0, right: 100.0),
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: <Widget>[
@@ -130,7 +155,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                             showModalBottomSheet(
                                                 shape: RoundedRectangleBorder(
                                                   borderRadius:
-                                                  BorderRadius.circular(10.0),
+                                                      BorderRadius.circular(
+                                                          10.0),
                                                 ),
                                                 context: context,
                                                 builder: ((builder) =>
@@ -147,28 +173,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           // SizedBox(
                           //   height: _height.height * 0.02,
                           // ),
-                          TextButton(
-                            onPressed: () {
-                              showModalBottomSheet(
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10.0),
-                                  ),
-                                  context: context,
-                                  isScrollControlled: true,
-                                  builder: ((context) => SingleChildScrollView(
-                                    child: Container(
-                                      padding: EdgeInsets.only(
-                                          bottom: MediaQuery.of(context)
-                                              .viewInsets
-                                              .bottom),
-                                      child: NameBottomSheet(),
-                                    ),
-                                  )));
-                            },
-                            child: Text(
-                              snapshot.data!['name'] ?? '',
-                              style: TextStyle(color: Colors.black, fontSize: 30),
-                            ),
+                          Text(
+                            snapshot.data!['name'] ?? '',
+                            style: TextStyle(color: Colors.black, fontSize: 30),
                           ),
                         ],
                       ),
@@ -182,7 +189,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       about: snapshot.data!['about'],
                       bloodGroup: snapshot.data!['bloodGroup'],
                       gender: snapshot.data!['gender'],
-                      location: snapshot.data!['location'] ,
+                      location: snapshot.data!['location'],
                     ),
                   ],
                 );
@@ -217,12 +224,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
               // ignore: deprecated_member_use
-              IconButton(onPressed: (){
-                takePhoto(ImageSource.camera);
-              }, style: IconButton.styleFrom(
-                  backgroundColor: kPrimaryColor.withOpacity(0.1),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))
-              ),
+              IconButton(
+                onPressed: () {
+                  takePhoto(ImageSource.camera);
+                },
+                style: IconButton.styleFrom(
+                    backgroundColor: kPrimaryColor.withOpacity(0.1),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10))),
                 icon: Column(
                   children: [
                     Icon(
@@ -234,20 +243,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
               ),
               // ignore: deprecated_member_use
-              IconButton(onPressed: (){
-                takePhoto(ImageSource.gallery);
-              }, style: IconButton.styleFrom(
-                  backgroundColor: kPrimaryColor.withOpacity(0.1),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))
-              ), icon: Column(
-                children: [
-                  Icon(
-                    Icons.image,
-                    color: kPrimaryColor,
-                  ),
-                  Text('Photos')
-                ],
-              ),
+              IconButton(
+                onPressed: () {
+                  takePhoto(ImageSource.gallery);
+                },
+                style: IconButton.styleFrom(
+                    backgroundColor: kPrimaryColor.withOpacity(0.1),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10))),
+                icon: Column(
+                  children: [
+                    Icon(
+                      Icons.image,
+                      color: kPrimaryColor,
+                    ),
+                    Text('Photos')
+                  ],
+                ),
               ),
             ],
           ),
@@ -260,9 +272,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
     //pick image from gallery or camera and then upload to firebase.
 
     var imageName = DateTime.now().millisecondsSinceEpoch.toString();
-    final storageRef = FirebaseStorage.instance.ref('user-images/$imageName.jpg');
+    final storageRef =
+        FirebaseStorage.instance.ref('user-images/$imageName.jpg');
     CollectionReference addImage =
-    FirebaseFirestore.instance.collection('Profile');
+        FirebaseFirestore.instance.collection('Profile');
 
     final pickedFile = await _picker.pickImage(
       source: source,
@@ -300,6 +313,4 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
     return Future.value(true);
   }
-
-
 }

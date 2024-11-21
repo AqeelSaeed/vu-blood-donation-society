@@ -1,6 +1,6 @@
 import 'package:plasma_donor/Screens/About/about_screen.dart';
 import 'package:plasma_donor/Screens/AddDonor/adddonor_screen.dart';
-import 'package:plasma_donor/Screens/AdminDashBoard/components/AdminHomeScreen.dart';
+import 'package:plasma_donor/Screens/AdminDashBoard/components/admin_home_screen.dart';
 import 'package:plasma_donor/Screens/Profile/profile_screen.dart';
 import 'package:plasma_donor/Screens/Setting/setting_screen.dart';
 import 'package:plasma_donor/Screens/UserDashBoard/components/UserHomeScreen.dart';

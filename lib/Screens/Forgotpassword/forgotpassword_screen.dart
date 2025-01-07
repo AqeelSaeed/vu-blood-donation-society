@@ -11,18 +11,15 @@ class ForgotPasswordScreen extends StatefulWidget {
 class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      child: Scaffold(
-        resizeToAvoidBottomInset: true, // set it to false
-        body: SingleChildScrollView(
-          child: ConnectivityStatus(child: Body()),
-        ),
+    return Scaffold(
+      resizeToAvoidBottomInset: true, // set it to false
+      body: SingleChildScrollView(
+        child: ConnectivityStatus(child: Body()),
       ),
-      onWillPop: onBackPressed,
     );
   }
 
-  Future<bool> onBackPressed() async{
+  Future<bool> onBackPressed() async {
     await Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
       builder: (context) {
         return WelcomeScreen();

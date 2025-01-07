@@ -32,93 +32,94 @@ class _RequestsScreenState extends State<RequestsScreen> {
   @override
   Widget build(BuildContext context) {
     Size _height = MediaQuery.of(context).size;
-    return WillPopScope(
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text('Requests', style: TextStyle(color: kWhiteColor),),
-          leading: Builder(
-            builder: (context) => IconButton(
-              icon: Icon(Icons.arrow_back_rounded, color: kWhiteColor,),
-              onPressed: onBackPressed,
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          'Requests',
+          style: TextStyle(color: kWhiteColor),
+        ),
+        leading: Builder(
+          builder: (context) => IconButton(
+            icon: Icon(
+              Icons.arrow_back_rounded,
+              color: kWhiteColor,
             ),
+            onPressed: onBackPressed,
           ),
-          centerTitle: true,
-          backgroundColor: kPrimaryColor,
-          actions: <Widget>[
-            PopupMenuButton<String>(
-              onSelected: handleClick,
-              iconColor: kWhiteColor,
-              itemBuilder: (BuildContext context) {
-                return {'Completed Requests'}.map((String choice) {
-                  return PopupMenuItem<String>(
-                    value: choice,
-                    child: Text(choice),
-                  );
-                }).toList();
-              },
+        ),
+        centerTitle: true,
+        backgroundColor: kPrimaryColor,
+        actions: <Widget>[
+          PopupMenuButton<String>(
+            onSelected: handleClick,
+            iconColor: kWhiteColor,
+            itemBuilder: (BuildContext context) {
+              return {'Completed Requests'}.map((String choice) {
+                return PopupMenuItem<String>(
+                  value: choice,
+                  child: Text(choice),
+                );
+              }).toList();
+            },
+          ),
+        ],
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        elevation: 8.0,
+        backgroundColor: kPrimaryColor,
+        foregroundColor: Colors.black,
+        tooltip: 'Accepted Requests',
+        onPressed: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (BuildContext context) => AcceptedRequestByUser()));
+        },
+        icon: Icon(Icons.local_hospital, color: Colors.white),
+        label: Text('Accepted Requests', style: TextStyle(color: Colors.white)),
+      ),
+      body: ConnectivityStatus(
+        child: Column(
+          children: <Widget>[
+            Image.asset(
+              "assets/images/drop.png",
+              height: _height.height * 0.4,
+            ),
+            Expanded(
+              //fetching blood requests in list.
+              child: StreamBuilder<QuerySnapshot>(
+                stream: FirebaseFirestore.instance
+                    .collection('Requests')
+                    .snapshots(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasError) {
+                    return Text('Something went wrong ${snapshot.error}');
+                  }
+                  switch (snapshot.connectionState) {
+                    case ConnectionState.waiting:
+                      return SizedBox(
+                        child: Center(
+                          child: CircularProgressIndicator(
+                            valueColor:
+                                AlwaysStoppedAnimation<Color>(kPrimaryColor),
+                          ),
+                        ),
+                      );
+                    case ConnectionState.none:
+                      return Text('There is nothing');
+                    default:
+                      return List(snapshot);
+                  }
+                },
+              ),
             ),
           ],
         ),
-        floatingActionButton: FloatingActionButton.extended(
-          elevation: 8.0,
-          backgroundColor: kPrimaryColor,
-          foregroundColor: Colors.black,
-          tooltip: 'Accepted Requests',
-          onPressed: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (BuildContext context) =>
-                        AcceptedRequestByUser()));
-          },
-          icon: Icon(Icons.local_hospital, color: Colors.white),
-          label:
-              Text('Accepted Requests', style: TextStyle(color: Colors.white)),
-        ),
-        body: ConnectivityStatus(
-          child: Column(
-            children: <Widget>[
-              Image.asset(
-                "assets/images/drop.png",
-                height: _height.height * 0.4,
-              ),
-              Expanded(
-                //fetching blood requests in list.
-                child: StreamBuilder<QuerySnapshot>(
-                  stream: FirebaseFirestore.instance
-                      .collection('Requests')
-                      .snapshots(),
-                  builder: (context, snapshot) {
-                    if (snapshot.hasError) {
-                      return Text('Something went wrong ${snapshot.error}');
-                    }
-                    switch (snapshot.connectionState) {
-                      case ConnectionState.waiting:
-                        return SizedBox(
-                          child: Center(
-                            child: CircularProgressIndicator(
-                              valueColor:
-                                  AlwaysStoppedAnimation<Color>(kPrimaryColor),
-                            ),
-                          ),
-                        );
-                      case ConnectionState.none:
-                        return Text('There is nothing');
-                      default:
-                        return List(snapshot);
-                    }
-                  },
-                ),
-              ),
-            ],
-          ),
-        ),
       ),
-      onWillPop: onBackPressed,
     );
   }
 
-  Future<bool> onBackPressed() async{
+  Future<bool> onBackPressed() async {
     await Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
       builder: (context) {
         return UserDashboardScreen();
@@ -177,7 +178,8 @@ class List extends StatelessWidget {
                                       );
                                     } else {
                                       Fluttertoast.showToast(
-                                        msg: "Already accepted by another donor",
+                                        msg:
+                                            "Already accepted by another donor",
                                         gravity: ToastGravity.BOTTOM,
                                       );
                                     }

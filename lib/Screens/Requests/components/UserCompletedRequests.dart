@@ -16,91 +16,88 @@ class _UserCompletedRequestsState extends State<UserCompletedRequests> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text(
-            'Completed Requests',
-            style: TextStyle(
-              color: Colors.black,
-              fontWeight: FontWeight.w500,
-              fontSize: 23,
-            ),
-          ),
-          backgroundColor: Colors.white,
-          leading: Builder(
-            builder: (context) => IconButton(
-              onPressed: onBackPressed,
-              icon: Icon(
-                Icons.cancel,
-                color: Colors.black26,
-              ),
-            ),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          'Completed Requests',
+          style: TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.w500,
+            fontSize: 23,
           ),
         ),
-        body: Column(
-          children: <Widget>[
-            Expanded(
-              child: StreamBuilder<QuerySnapshot>(
-                stream: FirebaseFirestore.instance
-                    .collection('Completed Requests')
-                    .where('Completed By', isEqualTo: user.uid)
-                    .snapshots(),
-                builder: (context, snapshot) {
-                  if (snapshot.hasError) {
-                    return Text('Something went wrong ${snapshot.error}');
-                  }
-                  switch (snapshot.connectionState) {
-                    case ConnectionState.waiting:
-                      return Center(
-                        child: CircularProgressIndicator(
-                          valueColor:
-                              AlwaysStoppedAnimation<Color>(kPrimaryColor),
-                        ),
-                      );
-                    default:
-                      return ListView(
-                          children: snapshot.data!.docs
-                              .asMap()
-                              .map((index, value) => MapEntry(
-                                    index,
-                                    Next(
-                                      Icons.person,
-                                      () {
-                                        showDialog(
-                                            context: context,
-                                            builder: (BuildContext context) {
-                                              return ProfileReview(
-                                                () {
-                                                  Navigator.pop(context);
-                                                },
-                                                "${value['location']}",
-                                                "${value['about']}",
-                                                "${value['name']}",
-                                                "${value['phoneNumber']}",
-                                                "${value['bloodGroup']}",
-                                                'close',
-                                              );
-                                            });
-                                      },
-                                      '${value['name']}',
-                                      () {},
-                                    ),
-                                  ))
-                              .values
-                              .toList());
-                  }
-                },
-              ),
+        backgroundColor: Colors.white,
+        leading: Builder(
+          builder: (context) => IconButton(
+            onPressed: onBackPressed,
+            icon: Icon(
+              Icons.cancel,
+              color: Colors.black26,
             ),
-          ],
+          ),
         ),
       ),
-      onWillPop: onBackPressed,
+      body: Column(
+        children: <Widget>[
+          Expanded(
+            child: StreamBuilder<QuerySnapshot>(
+              stream: FirebaseFirestore.instance
+                  .collection('Completed Requests')
+                  .where('Completed By', isEqualTo: user.uid)
+                  .snapshots(),
+              builder: (context, snapshot) {
+                if (snapshot.hasError) {
+                  return Text('Something went wrong ${snapshot.error}');
+                }
+                switch (snapshot.connectionState) {
+                  case ConnectionState.waiting:
+                    return Center(
+                      child: CircularProgressIndicator(
+                        valueColor:
+                            AlwaysStoppedAnimation<Color>(kPrimaryColor),
+                      ),
+                    );
+                  default:
+                    return ListView(
+                        children: snapshot.data!.docs
+                            .asMap()
+                            .map((index, value) => MapEntry(
+                                  index,
+                                  Next(
+                                    Icons.person,
+                                    () {
+                                      showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return ProfileReview(
+                                              () {
+                                                Navigator.pop(context);
+                                              },
+                                              "${value['location']}",
+                                              "${value['about']}",
+                                              "${value['name']}",
+                                              "${value['phoneNumber']}",
+                                              "${value['bloodGroup']}",
+                                              'close',
+                                            );
+                                          });
+                                    },
+                                    '${value['name']}',
+                                    () {},
+                                  ),
+                                ))
+                            .values
+                            .toList());
+                }
+              },
+            ),
+          ),
+        ],
+      ),
     );
   }
 
-  Future<bool> onBackPressed() async{
+  Future<bool> onBackPressed() async {
     await Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
       builder: (context) {
         return RequestsScreen();

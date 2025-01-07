@@ -19,128 +19,125 @@ class _ChangeEmailState extends State<ChangeEmail> {
   @override
   Widget build(BuildContext context) {
     Size _height = MediaQuery.of(context).size;
-    return WillPopScope(
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        appBar: AppBar(
-          title: Text(
-            'Change Email',
-            style: TextStyle(color: kWhiteColor),
-          ),
-          centerTitle: true,
-          backgroundColor: kPrimaryColor,
-          leading: Builder(
-            builder: (context) => IconButton(
-              icon: Icon(
-                Icons.arrow_back_rounded,
-                color: kWhiteColor,
-              ),
-              onPressed: () {
-                Navigator.pop(context);
-              },
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      appBar: AppBar(
+        title: Text(
+          'Change Email',
+          style: TextStyle(color: kWhiteColor),
+        ),
+        centerTitle: true,
+        backgroundColor: kPrimaryColor,
+        leading: Builder(
+          builder: (context) => IconButton(
+            icon: Icon(
+              Icons.arrow_back_rounded,
+              color: kWhiteColor,
             ),
+            onPressed: () {
+              Navigator.pop(context);
+            },
           ),
         ),
-        body: ConnectivityStatus(
-          child: GestureDetector(
-            onTap: () {
-              FocusScope.of(context).unfocus();
-            },
-            child: Container(
-              width: double.infinity,
-              height: _height.height,
-              child: SingleChildScrollView(
-                child: Column(
-                  children: <Widget>[
-                    SizedBox(height: _height.height * 0.06),
-                    Text(
-                      'Change Your Email',
-                      style: TextStyle(
-                        fontFamily: 'Assistant',
-                        fontSize: 20.0,
-                        color: kPrimaryColor,
-                        fontWeight: FontWeight.bold,
+      ),
+      body: ConnectivityStatus(
+        child: GestureDetector(
+          onTap: () {
+            FocusScope.of(context).unfocus();
+          },
+          child: Container(
+            width: double.infinity,
+            height: _height.height,
+            child: SingleChildScrollView(
+              child: Column(
+                children: <Widget>[
+                  SizedBox(height: _height.height * 0.06),
+                  Text(
+                    'Change Your Email',
+                    style: TextStyle(
+                      fontFamily: 'Assistant',
+                      fontSize: 20.0,
+                      color: kPrimaryColor,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(
+                    height: _height.height * 0.07,
+                  ),
+                  Form(
+                    key: _formKey,
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: _height.width * 0.03),
+                      child: Column(
+                        children: <Widget>[
+                          TextFormField(
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
+                            validator: (input) =>
+                                EmailValidator.validate(input!)
+                                    ? null
+                                    : "Please enter a valid email",
+                            initialValue: _email,
+                            keyboardType: TextInputType.visiblePassword,
+                            cursorColor: kPrimaryColor,
+                            onSaved: (input) => _email = input!,
+                            decoration: InputDecoration(
+                              icon: Icon(
+                                Icons.email,
+                                color: kPrimaryColor,
+                              ),
+                              labelText: 'Old Email',
+                              labelStyle: TextStyle(color: kPrimaryColor),
+                              focusedBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: kPrimaryColor),
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: _height.height * 0.03),
+                          TextFormField(
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
+                            validator: (input) =>
+                                EmailValidator.validate(input!)
+                                    ? null
+                                    : "Please enter a valid email",
+                            initialValue: _newEmail,
+                            keyboardType: TextInputType.visiblePassword,
+                            cursorColor: kPrimaryColor,
+                            onSaved: (input) => _newEmail = input!,
+                            decoration: InputDecoration(
+                              icon: Icon(
+                                Icons.email,
+                                color: kPrimaryColor,
+                              ),
+                              labelText: 'New Email',
+                              labelStyle: TextStyle(color: kPrimaryColor),
+                              focusedBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: kPrimaryColor),
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: _height.height * 0.1),
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: kPrimaryColor),
+                            child: Text(
+                              'Change Email',
+                              style: TextStyle(color: kWhiteColor),
+                            ),
+                            onPressed: _updateEmail,
+                          ),
+                        ],
                       ),
                     ),
-                    SizedBox(
-                      height: _height.height * 0.07,
-                    ),
-                    Form(
-                      key: _formKey,
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: _height.width * 0.03),
-                        child: Column(
-                          children: <Widget>[
-                            TextFormField(
-                              autovalidateMode:
-                                  AutovalidateMode.onUserInteraction,
-                              validator: (input) =>
-                                  EmailValidator.validate(input!)
-                                      ? null
-                                      : "Please enter a valid email",
-                              initialValue: _email,
-                              keyboardType: TextInputType.visiblePassword,
-                              cursorColor: kPrimaryColor,
-                              onSaved: (input) => _email = input!,
-                              decoration: InputDecoration(
-                                icon: Icon(
-                                  Icons.email,
-                                  color: kPrimaryColor,
-                                ),
-                                labelText: 'Old Email',
-                                labelStyle: TextStyle(color: kPrimaryColor),
-                                focusedBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(color: kPrimaryColor),
-                                ),
-                              ),
-                            ),
-                            SizedBox(height: _height.height * 0.03),
-                            TextFormField(
-                              autovalidateMode:
-                                  AutovalidateMode.onUserInteraction,
-                              validator: (input) =>
-                                  EmailValidator.validate(input!)
-                                      ? null
-                                      : "Please enter a valid email",
-                              initialValue: _newEmail,
-                              keyboardType: TextInputType.visiblePassword,
-                              cursorColor: kPrimaryColor,
-                              onSaved: (input) => _newEmail = input!,
-                              decoration: InputDecoration(
-                                icon: Icon(
-                                  Icons.email,
-                                  color: kPrimaryColor,
-                                ),
-                                labelText: 'New Email',
-                                labelStyle: TextStyle(color: kPrimaryColor),
-                                focusedBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(color: kPrimaryColor),
-                                ),
-                              ),
-                            ),
-                            SizedBox(height: _height.height * 0.1),
-                            ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                  backgroundColor: kPrimaryColor),
-                              child: Text(
-                                'Change Email',
-                                style: TextStyle(color: kWhiteColor),
-                              ),
-                              onPressed: _updateEmail,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ),
         ),
       ),
-      onWillPop: onBackPressed,
     );
   }
 

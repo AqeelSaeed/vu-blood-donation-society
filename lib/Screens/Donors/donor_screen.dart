@@ -1,9 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:plasma_donor/Components/ConnectivityStatus.dart';
-import 'package:plasma_donor/Components/Next.dart';
-import 'package:plasma_donor/Components/ProfileInfo.dart';
 import 'package:plasma_donor/Components/constants.dart';
 import 'package:plasma_donor/Screens/UserDashBoard/UserDashboard_Screen.dart';
 
@@ -16,7 +13,6 @@ class _DonorsScreenState extends State<DonorsScreen> {
   String keyword = '';
   @override
   Widget build(BuildContext context) {
-    Size _height = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         title: Text(

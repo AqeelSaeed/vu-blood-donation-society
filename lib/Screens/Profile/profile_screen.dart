@@ -12,7 +12,6 @@ import 'package:plasma_donor/Components/constants.dart';
 import 'package:plasma_donor/Screens/AdminDashBoard/admin_dashboard_screen.dart';
 import 'package:plasma_donor/Screens/Profile/components/EditProfile.dart';
 import 'dart:io';
-import 'package:plasma_donor/Screens/Profile/components/NameBottomSheet.dart';
 import 'package:plasma_donor/Screens/Profile/components/ProfileView.dart';
 import 'package:plasma_donor/Screens/UserDashBoard/UserDashboard_Screen.dart';
 
@@ -34,169 +33,164 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     Size _height = MediaQuery.of(context).size;
-    return WillPopScope(
-      child: Scaffold(
-        resizeToAvoidBottomInset: true,
-        appBar: AppBar(
-          leading: Builder(
-            builder: (context) => IconButton(
-              icon: Icon(
-                Icons.menu,
-                color: kWhiteColor,
-              ),
-              onPressed: widget.onMenuPressed,
+    return Scaffold(
+      resizeToAvoidBottomInset: true,
+      appBar: AppBar(
+        leading: Builder(
+          builder: (context) => IconButton(
+            icon: Icon(
+              Icons.menu,
+              color: kWhiteColor,
             ),
+            onPressed: widget.onMenuPressed,
           ),
-          title: Text(
-            'Profile',
-            style: TextStyle(color: kWhiteColor),
-          ),
-          centerTitle: true,
-          backgroundColor: kPrimaryColor,
         ),
-        floatingActionButton: FloatingActionButton.extended(
-          elevation: 8.0,
-          backgroundColor: kPrimaryColor,
-          foregroundColor: Colors.black,
-          onPressed: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (BuildContext context) => EditProfileForm()));
-          },
-          icon: Icon(Icons.edit, color: Colors.white),
-          label: Text('Edit', style: TextStyle(color: Colors.white)),
+        title: Text(
+          'Profile',
+          style: TextStyle(color: kWhiteColor),
         ),
-        body: ConnectivityStatus(
-          // fetching user data from firebase with stream builder
-          // fetching data from firebase
-          child: StreamBuilder<DocumentSnapshot>(
-              stream: FirebaseFirestore.instance
-                  .collection('Profile')
-                  .doc(user.uid)
-                  .snapshots(),
-              builder: (context, snapshot) {
-                if (snapshot.data == null) {
-                  return Center(
-                    child: CircularProgressIndicator(
-                      color: kPrimaryColor,
-                      strokeCap: StrokeCap.round,
-                    ),
-                  );
-                }
-                final data = snapshot.data!.data() as Map<String, dynamic>?;
-                return Column(
-                  children: <Widget>[
-                    // SizedBox(height: _height.height * 0.02),
-                    Container(
-                      // height: _height.height * 0.3,
-                      child: Column(
-                        children: <Widget>[
-                          Padding(
-                            padding: EdgeInsets.only(top: 20.0),
-                            child: Stack(
-                              fit: StackFit.loose,
-                              children: <Widget>[
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
+        centerTitle: true,
+        backgroundColor: kPrimaryColor,
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        elevation: 8.0,
+        backgroundColor: kPrimaryColor,
+        foregroundColor: Colors.black,
+        onPressed: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (BuildContext context) => EditProfileForm()));
+        },
+        icon: Icon(Icons.edit, color: Colors.white),
+        label: Text('Edit', style: TextStyle(color: Colors.white)),
+      ),
+      body: ConnectivityStatus(
+        // fetching user data from firebase with stream builder
+        // fetching data from firebase
+        child: StreamBuilder<DocumentSnapshot>(
+            stream: FirebaseFirestore.instance
+                .collection('Profile')
+                .doc(user.uid)
+                .snapshots(),
+            builder: (context, snapshot) {
+              if (snapshot.data == null) {
+                return Center(
+                  child: CircularProgressIndicator(
+                    color: kPrimaryColor,
+                    strokeCap: StrokeCap.round,
+                  ),
+                );
+              }
+              final data = snapshot.data!.data() as Map<String, dynamic>?;
+              return Column(
+                children: <Widget>[
+                  // SizedBox(height: _height.height * 0.02),
+                  Container(
+                    // height: _height.height * 0.3,
+                    child: Column(
+                      children: <Widget>[
+                        Padding(
+                          padding: EdgeInsets.only(top: 20.0),
+                          child: Stack(
+                            fit: StackFit.loose,
+                            children: <Widget>[
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  _imageFile == null
+                                      ? Container(
+                                          width: 140.0,
+                                          height: 140.0,
+                                          decoration: data!['user-image'] !=
+                                                  null
+                                              ? BoxDecoration(
+                                                  shape: BoxShape.circle,
+                                                  image: DecorationImage(
+                                                    image: NetworkImage(snapshot
+                                                        .data!['user-image']),
+                                                    fit: BoxFit.cover,
+                                                  ))
+                                              : BoxDecoration(
+                                                  shape: BoxShape.circle,
+                                                  image: DecorationImage(
+                                                      image: AssetImage(
+                                                          'assets/images/_blankProfile.jpg'),
+                                                      fit: BoxFit.cover)),
+                                        )
+                                      : Container(
+                                          width: 140.0,
+                                          height: 140.0,
+                                          decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            image: DecorationImage(
+                                                image: FileImage(
+                                                  File(_imageFile!.path
+                                                      .toString()),
+                                                ),
+                                                fit: BoxFit.cover),
+                                          ),
+                                        ),
+                                ],
+                              ),
+                              Padding(
+                                padding:
+                                    EdgeInsets.only(top: 90.0, right: 100.0),
+                                child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: <Widget>[
-                                    _imageFile == null
-                                        ? Container(
-                                            width: 140.0,
-                                            height: 140.0,
-                                            decoration: data!['user-image'] !=
-                                                    null
-                                                ? BoxDecoration(
-                                                    shape: BoxShape.circle,
-                                                    image: DecorationImage(
-                                                      image: NetworkImage(
-                                                          snapshot.data![
-                                                              'user-image']),
-                                                      fit: BoxFit.cover,
-                                                    ))
-                                                : BoxDecoration(
-                                                    shape: BoxShape.circle,
-                                                    image: DecorationImage(
-                                                        image: AssetImage(
-                                                            'assets/images/_blankProfile.jpg'),
-                                                        fit: BoxFit.cover)),
-                                          )
-                                        : Container(
-                                            width: 140.0,
-                                            height: 140.0,
-                                            decoration: BoxDecoration(
-                                              shape: BoxShape.circle,
-                                              image: DecorationImage(
-                                                  image: FileImage(
-                                                    File(_imageFile!.path
-                                                        .toString()),
-                                                  ),
-                                                  fit: BoxFit.cover),
-                                            ),
-                                          ),
+                                    CircleAvatar(
+                                      backgroundColor: kPrimaryColor,
+                                      radius: 25.0,
+                                      child: GestureDetector(
+                                        child: Icon(
+                                          Icons.camera_alt,
+                                          color: kWhiteColor,
+                                        ),
+                                        onTap: () {
+                                          showModalBottomSheet(
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(10.0),
+                                              ),
+                                              context: context,
+                                              builder: ((builder) =>
+                                                  bottomSheet()));
+                                        },
+                                      ),
+                                    ),
                                   ],
                                 ),
-                                Padding(
-                                  padding:
-                                      EdgeInsets.only(top: 90.0, right: 100.0),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: <Widget>[
-                                      CircleAvatar(
-                                        backgroundColor: kPrimaryColor,
-                                        radius: 25.0,
-                                        child: GestureDetector(
-                                          child: Icon(
-                                            Icons.camera_alt,
-                                            color: kWhiteColor,
-                                          ),
-                                          onTap: () {
-                                            showModalBottomSheet(
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          10.0),
-                                                ),
-                                                context: context,
-                                                builder: ((builder) =>
-                                                    bottomSheet()));
-                                          },
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
-                          // SizedBox(
-                          //   height: _height.height * 0.02,
-                          // ),
-                          Text(
-                            snapshot.data!['name'] ?? '',
-                            style: TextStyle(color: Colors.black, fontSize: 30),
-                          ),
-                        ],
-                      ),
+                        ),
+                        // SizedBox(
+                        //   height: _height.height * 0.02,
+                        // ),
+                        Text(
+                          snapshot.data!['name'] ?? '',
+                          style: TextStyle(color: Colors.black, fontSize: 30),
+                        ),
+                      ],
                     ),
+                  ),
 
-                    SizedBox(
-                      height: _height.height * 0.03,
-                    ),
-                    ProfileView(
-                      phoneNumber: snapshot.data!['phoneNumber'],
-                      about: snapshot.data!['about'],
-                      bloodGroup: snapshot.data!['bloodGroup'],
-                      gender: snapshot.data!['gender'],
-                      location: snapshot.data!['location'],
-                    ),
-                  ],
-                );
-              }),
-        ),
+                  SizedBox(
+                    height: _height.height * 0.03,
+                  ),
+                  ProfileView(
+                    phoneNumber: snapshot.data!['phoneNumber'],
+                    about: snapshot.data!['about'],
+                    bloodGroup: snapshot.data!['bloodGroup'],
+                    gender: snapshot.data!['gender'],
+                    location: snapshot.data!['location'],
+                  ),
+                ],
+              );
+            }),
       ),
-      onWillPop: onBackPressed,
     );
   }
 

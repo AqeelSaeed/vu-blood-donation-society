@@ -25,22 +25,22 @@ class _SignupBodyState extends State<SignupBody> {
   CollectionReference _addData =
       FirebaseFirestore.instance.collection('Profile');
 
-  String? _validatePassword(String? input) {
-    _password = input ?? '';
-    Pattern pattern =
-        r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$';
+  // String? _validatePassword(String? input) {
+  //   _password = input ?? '';
+  //   Pattern pattern =
+  //       r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$';
 
-    RegExp regex = new RegExp(pattern.toString());
-    print(input);
-    if (input.toString().isEmpty) {
-      return 'Please enter password';
-    } else {
-      if (!regex.hasMatch(input.toString()))
-        return 'Please enter valid password (Example: abc*123ABC)';
-      else
-        return null;
-    }
-  }
+  //   RegExp regex = new RegExp(pattern.toString());
+  //   print(input);
+  //   if (input.toString().isEmpty) {
+  //     return 'Please enter password';
+  //   } else {
+  //     if (!regex.hasMatch(input.toString()))
+  //       return 'Please enter valid password (Example: abc*123ABC)';
+  //     else
+  //       return null;
+  //   }
+  // }
 
   void _toggleVisibility() {
     setState(

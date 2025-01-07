@@ -315,7 +315,7 @@ class _AddPatientFormState extends State<AddPatientForm> {
           'case': _case,
           'gender': _gender,
           'about': _about,
-          'isAccepted': false, // Default value
+          'status': "Pending", // Default value
           'accept-by': '', // Default value
           'timestamp': FieldValue.serverTimestamp(),
         }).then((value) {

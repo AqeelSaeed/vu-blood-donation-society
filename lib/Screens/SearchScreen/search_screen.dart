@@ -21,99 +21,96 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   Widget build(BuildContext context) {
     Size _height = MediaQuery.of(context).size;
-    return WillPopScope(
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text(
-            'Search Donor',
-            style: TextStyle(color: kWhiteColor),
-          ),
-          centerTitle: true,
-          backgroundColor: kPrimaryColor,
-          leading: Builder(
-            builder: (context) => IconButton(
-              icon: Icon(
-                Icons.arrow_back_rounded,
-                color: kWhiteColor,
-              ),
-              onPressed: onBackPressed,
-            ),
-          ),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          'Search Donor',
+          style: TextStyle(color: kWhiteColor),
         ),
-        body: ConnectivityStatus(
-          child: GestureDetector(
-            onTap: () {
-              FocusScope.of(context).unfocus();
-            },
-            child: Column(
-              children: <Widget>[
-                SizedBox(height: _height.height * 0.03),
-                Padding(
-                  padding: EdgeInsets.all(10.0),
-                  child: TextField(
-                    cursorColor: kPrimaryColor,
-                    onChanged: (val) {
-                      setState(() {
-                        _query = val.toLowerCase();
-                      });
-                    },
-                    decoration: InputDecoration(
-                      prefixIcon: Icon(
-                        Icons.search,
-                        color: kPrimaryColor,
-                      ),
-                      contentPadding: EdgeInsets.only(left: 25.0),
-                      hintText: 'Search by Location',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(4.0),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: kPrimaryColor),
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 10.0),
-                // searching donors
-                Expanded(
-                  child: StreamBuilder<QuerySnapshot>(
-                    stream: (_query == null || _query.toString().trim() == '')
-                        ? FirebaseFirestore.instance
-                            .collection('Profile')
-                            .snapshots()
-                        : FirebaseFirestore.instance
-                            .collection('Profile')
-                            .where('searchIndex', arrayContains: _query)
-                            .snapshots(),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasError) {
-                        return Text('Something went wrong ${snapshot.error}');
-                      }
-                      switch (snapshot.connectionState) {
-                        case ConnectionState.waiting:
-                          return Center(
-                            child: Center(
-                              child: CircularProgressIndicator(
-                                valueColor: AlwaysStoppedAnimation<Color>(
-                                  kPrimaryColor,
-                                ),
-                              ),
-                            ),
-                          );
-                        case ConnectionState.none:
-                          return Text('There is nothing');
-                        default:
-                          return List(snapshot);
-                      }
-                    },
-                  ),
-                ),
-              ],
+        centerTitle: true,
+        backgroundColor: kPrimaryColor,
+        leading: Builder(
+          builder: (context) => IconButton(
+            icon: Icon(
+              Icons.arrow_back_rounded,
+              color: kWhiteColor,
             ),
+            onPressed: onBackPressed,
           ),
         ),
       ),
-      onWillPop: onBackPressed,
+      body: ConnectivityStatus(
+        child: GestureDetector(
+          onTap: () {
+            FocusScope.of(context).unfocus();
+          },
+          child: Column(
+            children: <Widget>[
+              SizedBox(height: _height.height * 0.03),
+              Padding(
+                padding: EdgeInsets.all(10.0),
+                child: TextField(
+                  cursorColor: kPrimaryColor,
+                  onChanged: (val) {
+                    setState(() {
+                      _query = val.toLowerCase();
+                    });
+                  },
+                  decoration: InputDecoration(
+                    prefixIcon: Icon(
+                      Icons.search,
+                      color: kPrimaryColor,
+                    ),
+                    contentPadding: EdgeInsets.only(left: 25.0),
+                    hintText: 'Search by Location',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(4.0),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: kPrimaryColor),
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(height: 10.0),
+              // searching donors
+              Expanded(
+                child: StreamBuilder<QuerySnapshot>(
+                  stream: (_query == null || _query.toString().trim() == '')
+                      ? FirebaseFirestore.instance
+                          .collection('Profile')
+                          .snapshots()
+                      : FirebaseFirestore.instance
+                          .collection('Profile')
+                          .where('searchIndex', arrayContains: _query)
+                          .snapshots(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasError) {
+                      return Text('Something went wrong ${snapshot.error}');
+                    }
+                    switch (snapshot.connectionState) {
+                      case ConnectionState.waiting:
+                        return Center(
+                          child: Center(
+                            child: CircularProgressIndicator(
+                              valueColor: AlwaysStoppedAnimation<Color>(
+                                kPrimaryColor,
+                              ),
+                            ),
+                          ),
+                        );
+                      case ConnectionState.none:
+                        return Text('There is nothing');
+                      default:
+                        return List(snapshot);
+                    }
+                  },
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 

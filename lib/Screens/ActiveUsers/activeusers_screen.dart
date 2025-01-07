@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:plasma_donor/Components/ConnectivityStatus.dart';
@@ -112,10 +110,10 @@ class _ActiveUsersState extends State<ActiveUsers> {
         ),
       ),
       canPop: false,
-      onPopInvoked: (value) {
-        log('onPopInvoked: $value');
-        onBackPressed();
-      },
+      // onPopInvoked: (value) {
+      //   log('onPopInvoked: $value');
+      //   onBackPressed();
+      // },
     );
   }
 

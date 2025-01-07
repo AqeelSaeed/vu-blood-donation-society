@@ -26,210 +26,207 @@ class _AddDonorFormState extends State<AddDonorForm> {
   @override
   Widget build(BuildContext context) {
     Size _height = MediaQuery.of(context).size;
-    return WillPopScope(
-        child: Scaffold(
-          appBar: AppBar(
-            title: Text(
-              'Add Donor',
-              style: TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.w500,
-                fontSize: 23,
-              ),
-            ),
-            backgroundColor: Colors.white,
-            leading: Builder(
-              builder: (context) => IconButton(
-                onPressed: onBackPressed,
-                icon: Icon(
-                  Icons.cancel,
-                  color: Colors.black26,
-                ),
-              ),
-            ),
-            actions: <Widget>[
-              TextButton(
-                onPressed: () {
-                  _addDonor();
-                },
-                child: Text(
-                  'Save',
-                  style: TextStyle(
-                    color: kPrimaryColor,
-                    fontWeight: FontWeight.w500,
-                    fontSize: 20,
-                  ),
-                ),
-              )
-            ],
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          'Add Donor',
+          style: TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.w500,
+            fontSize: 23,
           ),
-          body: GestureDetector(
-            onTap: () {
-              FocusScope.of(context).unfocus();
+        ),
+        backgroundColor: Colors.white,
+        leading: Builder(
+          builder: (context) => IconButton(
+            onPressed: onBackPressed,
+            icon: Icon(
+              Icons.cancel,
+              color: Colors.black26,
+            ),
+          ),
+        ),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () {
+              _addDonor();
             },
-            child: SingleChildScrollView(
-              child: Container(
-                width: double.infinity,
-                height: _height.height,
-                margin: EdgeInsets.symmetric(horizontal: 10),
-                child: Form(
-                  key: _formKey,
-                  child: Column(
+            child: Text(
+              'Save',
+              style: TextStyle(
+                color: kPrimaryColor,
+                fontWeight: FontWeight.w500,
+                fontSize: 20,
+              ),
+            ),
+          )
+        ],
+      ),
+      body: GestureDetector(
+        onTap: () {
+          FocusScope.of(context).unfocus();
+        },
+        child: SingleChildScrollView(
+          child: Container(
+            width: double.infinity,
+            height: _height.height,
+            margin: EdgeInsets.symmetric(horizontal: 10),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                children: <Widget>[
+                  SizedBox(height: _height.height * 0.05),
+                  TextFormField(
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    validator: (input) {
+                      if (input!.isEmpty) return 'Enter Name';
+                      return null;
+                    },
+                    keyboardType: TextInputType.name,
+                    cursorColor: kPrimaryColor,
+                    onSaved: (input) => _name = input,
+                    decoration: InputDecoration(
+                      icon: Icon(
+                        Icons.person,
+                        color: kPrimaryColor,
+                      ),
+                      labelText: 'Full Name',
+                      labelStyle: TextStyle(color: kPrimaryColor),
+                      focusedBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: kPrimaryColor),
+                      ),
+                    ),
+                  ),
+                  TextFormField(
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    validator: (input) {
+                      if (input!.isEmpty) return 'Enter Phone Number';
+                      return null;
+                    },
+                    keyboardType: TextInputType.phone,
+                    cursorColor: kPrimaryColor,
+                    onSaved: (input) => _mobileNo = input,
+                    decoration: InputDecoration(
+                      icon: Icon(
+                        Icons.phone,
+                        color: kPrimaryColor,
+                      ),
+                      labelText: 'Phone Number',
+                      labelStyle: TextStyle(color: kPrimaryColor),
+                      focusedBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: kPrimaryColor),
+                      ),
+                    ),
+                  ),
+                  TextFormField(
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    validator: (input) {
+                      if (input!.isEmpty) return 'Enter Location';
+                      return null;
+                    },
+                    keyboardType: TextInputType.streetAddress,
+                    cursorColor: kPrimaryColor,
+                    onSaved: (input) => _address = input,
+                    decoration: InputDecoration(
+                      icon: Icon(
+                        Icons.location_on,
+                        color: kPrimaryColor,
+                      ),
+                      labelText: 'Location',
+                      labelStyle: TextStyle(color: kPrimaryColor),
+                      focusedBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: kPrimaryColor),
+                      ),
+                    ),
+                  ),
+                  TextFormField(
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    validator: (input) {
+                      if (input!.isEmpty) return 'Enter About';
+                      return null;
+                    },
+                    keyboardType: TextInputType.text,
+                    cursorColor: kPrimaryColor,
+                    onSaved: (input) => _about = input,
+                    decoration: InputDecoration(
+                      icon: Icon(
+                        Icons.info_outline_rounded,
+                        color: kPrimaryColor,
+                      ),
+                      labelText: 'About',
+                      labelStyle: TextStyle(color: kPrimaryColor),
+                      focusedBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: kPrimaryColor),
+                      ),
+                    ),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      SizedBox(height: _height.height * 0.05),
-                      TextFormField(
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
-                        validator: (input) {
-                          if (input!.isEmpty) return 'Enter Name';
-                          return null;
-                        },
-                        keyboardType: TextInputType.name,
-                        cursorColor: kPrimaryColor,
-                        onSaved: (input) => _name = input,
-                        decoration: InputDecoration(
-                          icon: Icon(
-                            Icons.person,
-                            color: kPrimaryColor,
+                      Icon(
+                        Icons.local_hospital_outlined,
+                        color: kPrimaryColor,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 10.0, top: 10.0),
+                        child: DropdownButton(
+                          hint: Text(
+                            "Select Blood Group",
+                            style: TextStyle(color: kPrimaryColor),
                           ),
-                          labelText: 'Full Name',
-                          labelStyle: TextStyle(color: kPrimaryColor),
-                          focusedBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(color: kPrimaryColor),
-                          ),
+                          value: _bloodGroup,
+                          onChanged: (input) {
+                            setState(() {
+                              _bloodGroup = input.toString();
+                            });
+                          },
+                          items: _bloodGroupItem.map((input) {
+                            return DropdownMenuItem(
+                              value: input,
+                              child: Text(input),
+                            );
+                          }).toList(),
                         ),
-                      ),
-                      TextFormField(
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
-                        validator: (input) {
-                          if (input!.isEmpty) return 'Enter Phone Number';
-                          return null;
-                        },
-                        keyboardType: TextInputType.phone,
-                        cursorColor: kPrimaryColor,
-                        onSaved: (input) => _mobileNo = input,
-                        decoration: InputDecoration(
-                          icon: Icon(
-                            Icons.phone,
-                            color: kPrimaryColor,
-                          ),
-                          labelText: 'Phone Number',
-                          labelStyle: TextStyle(color: kPrimaryColor),
-                          focusedBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(color: kPrimaryColor),
-                          ),
-                        ),
-                      ),
-                      TextFormField(
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
-                        validator: (input) {
-                          if (input!.isEmpty) return 'Enter Location';
-                          return null;
-                        },
-                        keyboardType: TextInputType.streetAddress,
-                        cursorColor: kPrimaryColor,
-                        onSaved: (input) => _address = input,
-                        decoration: InputDecoration(
-                          icon: Icon(
-                            Icons.location_on,
-                            color: kPrimaryColor,
-                          ),
-                          labelText: 'Location',
-                          labelStyle: TextStyle(color: kPrimaryColor),
-                          focusedBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(color: kPrimaryColor),
-                          ),
-                        ),
-                      ),
-                      TextFormField(
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
-                        validator: (input) {
-                          if (input!.isEmpty) return 'Enter About';
-                          return null;
-                        },
-                        keyboardType: TextInputType.text,
-                        cursorColor: kPrimaryColor,
-                        onSaved: (input) => _about = input,
-                        decoration: InputDecoration(
-                          icon: Icon(
-                            Icons.info_outline_rounded,
-                            color: kPrimaryColor,
-                          ),
-                          labelText: 'About',
-                          labelStyle: TextStyle(color: kPrimaryColor),
-                          focusedBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(color: kPrimaryColor),
-                          ),
-                        ),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Icon(
-                            Icons.local_hospital_outlined,
-                            color: kPrimaryColor,
-                          ),
-                          Padding(
-                            padding:
-                                const EdgeInsets.only(left: 10.0, top: 10.0),
-                            child: DropdownButton(
-                              hint: Text(
-                                "Select Blood Group",
-                                style: TextStyle(color: kPrimaryColor),
-                              ),
-                              value: _bloodGroup,
-                              onChanged: (input) {
-                                setState(() {
-                                  _bloodGroup = input.toString();
-                                });
-                              },
-                              items: _bloodGroupItem.map((input) {
-                                return DropdownMenuItem(
-                                  value: input,
-                                  child: Text(input),
-                                );
-                              }).toList(),
-                            ),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Icon(
-                            Icons.assignment_ind,
-                            color: kPrimaryColor,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 10.0),
-                            child: DropdownButton(
-                              hint: Text(
-                                "Select Your Gender",
-                                style: TextStyle(color: kPrimaryColor),
-                              ),
-                              value: _gender,
-                              onChanged: (input) {
-                                setState(() {
-                                  _gender = input.toString();
-                                });
-                              },
-                              items: _genderItem.map((input) {
-                                return DropdownMenuItem(
-                                  value: input,
-                                  child: Text(input),
-                                );
-                              }).toList(),
-                            ),
-                          ),
-                        ],
                       ),
                     ],
                   ),
-                ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Icon(
+                        Icons.assignment_ind,
+                        color: kPrimaryColor,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 10.0),
+                        child: DropdownButton(
+                          hint: Text(
+                            "Select Your Gender",
+                            style: TextStyle(color: kPrimaryColor),
+                          ),
+                          value: _gender,
+                          onChanged: (input) {
+                            setState(() {
+                              _gender = input.toString();
+                            });
+                          },
+                          items: _genderItem.map((input) {
+                            return DropdownMenuItem(
+                              value: input,
+                              child: Text(input),
+                            );
+                          }).toList(),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
             ),
           ),
         ),
-        onWillPop: onBackPressed);
+      ),
+    );
   }
 
   Future<void> _addDonor() async {

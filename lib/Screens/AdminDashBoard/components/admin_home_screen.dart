@@ -8,7 +8,6 @@ import 'package:plasma_donor/Screens/AddDonor/adddonor_screen.dart';
 import 'package:plasma_donor/Screens/AdminDashBoard/components/rejected_users_screen.dart';
 import 'package:plasma_donor/Screens/NewUsers/w/new_users_list_screen.dart';
 import 'package:plasma_donor/Screens/Raise%20Request/raiserequest_screen.dart';
-import 'package:plasma_donor/Screens/SearchScreen/search_screen.dart';
 import 'package:plasma_donor/patient/add_patient_screen.dart';
 
 // ignore: must_be_immutable
@@ -75,7 +74,7 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                               },
                             ), (route) => false);
                           },
-                          'Active Users',
+                          'Active Donors',
                         ),
                       ),
                     ),
@@ -85,14 +84,13 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                         child: VerticalCard(
                           Icons.local_hospital_outlined,
                           () {
-                            Navigator.pushAndRemoveUntil(context,
-                                MaterialPageRoute(
+                            Navigator.push(context, MaterialPageRoute(
                               builder: (context) {
                                 return RaiseRequestScreen();
                               },
-                            ), (route) => false);
+                            ));
                           },
-                          'Raise Request',
+                          'Blood Requests',
                         ),
                       ),
                     ),

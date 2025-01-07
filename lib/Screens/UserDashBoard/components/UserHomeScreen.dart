@@ -1,9 +1,6 @@
-import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:kf_drawer/kf_drawer.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:plasma_donor/Components/ConnectivityStatus.dart';
@@ -12,7 +9,9 @@ import 'package:plasma_donor/Components/constants.dart';
 import 'package:plasma_donor/Screens/Donors/donor_screen.dart';
 import 'package:plasma_donor/Screens/Profile/components/EditProfile.dart';
 import 'package:plasma_donor/Screens/Requests/requests_screen.dart';
-import 'package:plasma_donor/patient/add_patient_form.dart';
+import 'package:plasma_donor/patient/patient_requests_screen.dart';
+
+import '../../../patient/add_patient_form.dart';
 
 // ignore: must_be_immutable
 class UserHomeScreen extends KFDrawerContent {
@@ -53,7 +52,7 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
 
   Widget build(BuildContext context) {
     Size _height = MediaQuery.of(context).size;
-    log('userName: ${user.displayName}');
+
     return Scaffold(
       appBar: AppBar(
         leading: Builder(
@@ -188,8 +187,12 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                         if (userType == "Patient") {
                           Navigator.push(context, MaterialPageRoute(
                             builder: (context) {
-                              return AddPatientForm(
-                                  requestType: 'request-blood');
+                              return PatientRequestsScreen(
+                                role: userType,
+                                userId: user.uid,
+                              );
+                              // return AddPatientForm(
+                              //     requestType: 'request-blood');
                             },
                           ));
                         } else {
@@ -200,12 +203,34 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                           ));
                         }
                       },
-                      userType == "Donor" ? 'Requests' : 'Generate Request',
+                      'Requests',
                     ),
                   ),
                 ],
               );
             }),
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {
+          Navigator.push(context, MaterialPageRoute(
+            builder: (context) {
+              return AddPatientForm(requestType: 'request-blood');
+            },
+          ));
+        },
+        backgroundColor: kPrimaryColor,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        label: Row(
+          children: [
+            Text('Request Blood',
+                style: TextStyle(
+                    color: kWhiteColor,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold)),
+            const SizedBox(width: 10),
+            Icon(Icons.bloodtype_rounded, color: kWhiteColor, size: 24)
+          ],
+        ),
       ),
     );
   }

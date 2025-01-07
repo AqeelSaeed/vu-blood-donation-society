@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'components/body.dart';
 
 class WelcomeScreen extends StatefulWidget {
-
   @override
   _WelcomeScreenState createState() => _WelcomeScreenState();
 }
@@ -10,12 +9,9 @@ class WelcomeScreen extends StatefulWidget {
 class _WelcomeScreenState extends State<WelcomeScreen> {
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      child: Scaffold(
-        resizeToAvoidBottomInset: true,
-        body: Body(),
-      ),
-      onWillPop: onBackPressed,
+    return Scaffold(
+      resizeToAvoidBottomInset: true,
+      body: Body(),
     );
   }
 

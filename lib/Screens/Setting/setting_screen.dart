@@ -21,64 +21,61 @@ class _SettingScreenState extends State<SettingScreen> {
   @override
   Widget build(BuildContext context) {
     Size _height = MediaQuery.of(context).size;
-    return WillPopScope(
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        appBar: AppBar(
-          backgroundColor: kPrimaryColor,
-          leading: Builder(
-            builder: (context) => IconButton(
-              icon: Icon(
-                Icons.menu_outlined,
-                color: kWhiteColor,
-              ),
-              onPressed: widget.onMenuPressed,
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      appBar: AppBar(
+        backgroundColor: kPrimaryColor,
+        leading: Builder(
+          builder: (context) => IconButton(
+            icon: Icon(
+              Icons.menu_outlined,
+              color: kWhiteColor,
             ),
-          ),
-          centerTitle: true,
-          title: Text(
-            'Account Setting',
-            style: TextStyle(color: kWhiteColor),
+            onPressed: widget.onMenuPressed,
           ),
         ),
-        body: Container(
-          width: double.infinity,
-          height: _height.height,
-          child: SingleChildScrollView(
-            child: Column(
-              children: <Widget>[
-                SizedBox(height: _height.height * 0.01),
-                MoveOn(
-                  Icons.lock_outline,
-                  () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => ChangePasswordScreen(),
-                      ),
-                    );
-                  },
-                  'Change Password',
-                ),
-                MoveOn(Icons.email_outlined, () {
+        centerTitle: true,
+        title: Text(
+          'Account Setting',
+          style: TextStyle(color: kWhiteColor),
+        ),
+      ),
+      body: Container(
+        width: double.infinity,
+        height: _height.height,
+        child: SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              SizedBox(height: _height.height * 0.01),
+              MoveOn(
+                Icons.lock_outline,
+                () {
                   Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (context) => ChangeEmail(),
+                      builder: (context) => ChangePasswordScreen(),
                     ),
                   );
-                }, 'Change Email'),
-                MoveOn(Icons.delete_outline, () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => DeleteAccount(),
-                    ),
-                  );
-                }, 'Delete Account'),
-              ],
-            ),
+                },
+                'Change Password',
+              ),
+              MoveOn(Icons.email_outlined, () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => ChangeEmail(),
+                  ),
+                );
+              }, 'Change Email'),
+              MoveOn(Icons.delete_outline, () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => DeleteAccount(),
+                  ),
+                );
+              }, 'Delete Account'),
+            ],
           ),
         ),
       ),
-      onWillPop: onBackPressed,
     );
   }
 
@@ -96,6 +93,6 @@ class _SettingScreenState extends State<SettingScreen> {
         },
       ), (route) => false);
     }
-    return Future.value(null);
+    return Future.value(false);
   }
 }

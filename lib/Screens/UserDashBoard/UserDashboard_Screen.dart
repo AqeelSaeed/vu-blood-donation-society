@@ -8,7 +8,6 @@ import 'package:plasma_donor/Components/constants.dart';
 import 'package:plasma_donor/Screens/About/about_screen.dart';
 import 'package:plasma_donor/Screens/AdminDashBoard/components/admin_home_screen.dart';
 import 'package:plasma_donor/Screens/Profile/profile_screen.dart';
-import 'package:plasma_donor/Screens/Setting/setting_screen.dart';
 import 'package:plasma_donor/Screens/Welcome/welcome_screen.dart';
 
 import 'components/UserHomeScreen.dart';
@@ -44,12 +43,6 @@ class _UserDashboardScreenState extends State<UserDashboardScreen> {
               style: TextStyle(color: Colors.white, fontSize: 18)),
           icon: Icon(Icons.person, color: Colors.white),
           page: ProfileScreen(),
-        ),
-        KFDrawerItem.initWithPage(
-          text: Text('Setting',
-              style: TextStyle(color: Colors.white, fontSize: 18)),
-          icon: Icon(Icons.settings, color: Colors.white),
-          page: SettingScreen(),
         ),
         KFDrawerItem.initWithPage(
           text: Text('About',

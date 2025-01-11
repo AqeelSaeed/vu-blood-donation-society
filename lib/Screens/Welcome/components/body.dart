@@ -245,13 +245,12 @@ class _BodyState extends State<Body> {
               ),
             );
           } else if (isVerified) {
-            {
-              Navigator.of(context).pushReplacement(
-                MaterialPageRoute(
-                  builder: (context) => UserDashboardScreen(),
-                ),
-              );
-            }
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(
+                builder: (context) => UserDashboardScreen(),
+              ),
+            );
+
             Fluttertoast.showToast(
               msg: "Login successfully",
               gravity: ToastGravity.BOTTOM,

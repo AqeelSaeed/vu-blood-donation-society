@@ -36,7 +36,7 @@ class _AboutScreenState extends State<AboutScreen> {
       ),
       body: Center(
         child: Text(
-          'About Us',
+          'Seyda Meerat Arshad',
           style: TextStyle(
             fontSize: 24.0,
             fontWeight: FontWeight.bold,

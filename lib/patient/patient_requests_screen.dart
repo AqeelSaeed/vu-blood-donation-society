@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -10,6 +8,11 @@ class PatientRequestsScreen extends StatelessWidget {
   final String role; // Pass the user's role (e.g., "patient", "donor", "admin")
 
   PatientRequestsScreen({required this.userId, required this.role});
+
+  /*
+  {"key" : "value"}
+  
+   */
 
   Future<List<Map<String, dynamic>>> fetchRequests() async {
     QuerySnapshot query;

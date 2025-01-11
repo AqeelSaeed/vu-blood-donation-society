@@ -59,7 +59,7 @@ class _MyAppState extends State<MyApp> {
       providers: [ChangeNotifierProvider(create: (context) => DataProvider())],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'Plasma Donor',
+        title: 'Blood Donation',
         theme: ThemeData(
           scaffoldBackgroundColor: Colors.white,
         ),
